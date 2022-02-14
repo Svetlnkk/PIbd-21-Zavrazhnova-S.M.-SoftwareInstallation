@@ -39,6 +39,8 @@ namespace SoftwareInstallationView
             this.btnOrderReady = new System.Windows.Forms.Button();
             this.btnRefreshList = new System.Windows.Forms.Button();
             this.btnIssuedOrder = new System.Windows.Forms.Button();
+            this.складыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnReplenishWarehouse = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -58,7 +60,8 @@ namespace SoftwareInstallationView
             // 
             this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.компонентыToolStripMenuItem,
-            this.изделияToolStripMenuItem});
+            this.изделияToolStripMenuItem,
+            this.складыToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(117, 24);
             this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -66,14 +69,14 @@ namespace SoftwareInstallationView
             // компонентыToolStripMenuItem
             // 
             this.компонентыToolStripMenuItem.Name = "компонентыToolStripMenuItem";
-            this.компонентыToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.компонентыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.компонентыToolStripMenuItem.Text = "Компоненты";
             this.компонентыToolStripMenuItem.Click += new System.EventHandler(this.компонентыToolStripMenuItem_Click);
             // 
             // изделияToolStripMenuItem
             // 
             this.изделияToolStripMenuItem.Name = "изделияToolStripMenuItem";
-            this.изделияToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.изделияToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.изделияToolStripMenuItem.Text = "Изделия";
             this.изделияToolStripMenuItem.Click += new System.EventHandler(this.изделияToolStripMenuItem_Click);
             // 
@@ -90,7 +93,7 @@ namespace SoftwareInstallationView
             // 
             // btnCreateOrder
             // 
-            this.btnCreateOrder.Location = new System.Drawing.Point(906, 73);
+            this.btnCreateOrder.Location = new System.Drawing.Point(906, 48);
             this.btnCreateOrder.Name = "btnCreateOrder";
             this.btnCreateOrder.Size = new System.Drawing.Size(211, 29);
             this.btnCreateOrder.TabIndex = 2;
@@ -100,7 +103,7 @@ namespace SoftwareInstallationView
             // 
             // btnTakeOrderInWork
             // 
-            this.btnTakeOrderInWork.Location = new System.Drawing.Point(906, 150);
+            this.btnTakeOrderInWork.Location = new System.Drawing.Point(906, 110);
             this.btnTakeOrderInWork.Name = "btnTakeOrderInWork";
             this.btnTakeOrderInWork.Size = new System.Drawing.Size(211, 29);
             this.btnTakeOrderInWork.TabIndex = 3;
@@ -110,7 +113,7 @@ namespace SoftwareInstallationView
             // 
             // btnOrderReady
             // 
-            this.btnOrderReady.Location = new System.Drawing.Point(906, 227);
+            this.btnOrderReady.Location = new System.Drawing.Point(906, 173);
             this.btnOrderReady.Name = "btnOrderReady";
             this.btnOrderReady.Size = new System.Drawing.Size(211, 29);
             this.btnOrderReady.TabIndex = 4;
@@ -120,7 +123,7 @@ namespace SoftwareInstallationView
             // 
             // btnRefreshList
             // 
-            this.btnRefreshList.Location = new System.Drawing.Point(906, 377);
+            this.btnRefreshList.Location = new System.Drawing.Point(906, 306);
             this.btnRefreshList.Name = "btnRefreshList";
             this.btnRefreshList.Size = new System.Drawing.Size(211, 29);
             this.btnRefreshList.TabIndex = 5;
@@ -130,7 +133,7 @@ namespace SoftwareInstallationView
             // 
             // btnIssuedOrder
             // 
-            this.btnIssuedOrder.Location = new System.Drawing.Point(906, 306);
+            this.btnIssuedOrder.Location = new System.Drawing.Point(906, 238);
             this.btnIssuedOrder.Name = "btnIssuedOrder";
             this.btnIssuedOrder.Size = new System.Drawing.Size(211, 29);
             this.btnIssuedOrder.TabIndex = 6;
@@ -138,11 +141,29 @@ namespace SoftwareInstallationView
             this.btnIssuedOrder.UseVisualStyleBackColor = true;
             this.btnIssuedOrder.Click += new System.EventHandler(this.btnIssuedOrder_Click);
             // 
+            // складыToolStripMenuItem
+            // 
+            this.складыToolStripMenuItem.Name = "складыToolStripMenuItem";
+            this.складыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.складыToolStripMenuItem.Text = "Склады";
+            this.складыToolStripMenuItem.Click += new System.EventHandler(this.складыToolStripMenuItem_Click);
+            // 
+            // btnReplenishWarehouse
+            // 
+            this.btnReplenishWarehouse.Location = new System.Drawing.Point(906, 367);
+            this.btnReplenishWarehouse.Name = "btnReplenishWarehouse";
+            this.btnReplenishWarehouse.Size = new System.Drawing.Size(211, 29);
+            this.btnReplenishWarehouse.TabIndex = 7;
+            this.btnReplenishWarehouse.Text = "Пополнение склада";
+            this.btnReplenishWarehouse.UseVisualStyleBackColor = true;
+            this.btnReplenishWarehouse.Click += new System.EventHandler(this.btnReplenishWarehouse_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1152, 450);
+            this.Controls.Add(this.btnReplenishWarehouse);
             this.Controls.Add(this.btnIssuedOrder);
             this.Controls.Add(this.btnRefreshList);
             this.Controls.Add(this.btnOrderReady);
@@ -174,5 +195,7 @@ namespace SoftwareInstallationView
         private System.Windows.Forms.Button btnOrderReady;
         private System.Windows.Forms.Button btnRefreshList;
         private System.Windows.Forms.Button btnIssuedOrder;
+        private System.Windows.Forms.ToolStripMenuItem складыToolStripMenuItem;
+        private System.Windows.Forms.Button btnReplenishWarehouse;
     }
 }

@@ -132,5 +132,17 @@ namespace SoftwareInstallationView
         {
             LoadData();
         }
+
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormWarehouses>();
+            form.ShowDialog();
+        }
+
+        private void btnReplenishWarehouse_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormReplenishmentOfWarehouse>();
+            form.ShowDialog();
+        }
     }
 }
