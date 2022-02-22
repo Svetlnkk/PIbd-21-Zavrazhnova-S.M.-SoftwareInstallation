@@ -1,7 +1,8 @@
 using SoftwareInstallationBusinessLogic.BusinessLogics;
 using SoftwareInstallationContracts.BusinessLogicsContracts;
 using SoftwareInstallationContracts.StoragesContracts;
-using SoftwareInstallationListImplement.Implements;
+using SoftwareInstallationFileImplement.Implements;
+using SoftwareInstallationFileImplement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace SoftwareInstallationView
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(Container.Resolve<FormMain>());
+            FileDataListSingleton.Save();
         }
         private static IUnityContainer BuildUnityContainer()
         {

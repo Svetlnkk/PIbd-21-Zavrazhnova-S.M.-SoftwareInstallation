@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SoftwareInstallationBusinessLogic\SoftwareInstallationBusinessLogic.csproj" />
+    <ProjectReference Include="..\SoftwareInstallationFileImplement\SoftwareInstallationFileImplement.csproj" />
     <ProjectReference Include="..\SoftwareInstallationListImplement\SoftwareInstallationListImplement.csproj" />
   </ItemGroup>
 
