@@ -139,7 +139,9 @@ namespace SoftwareInstallationView
             form.ShowDialog();
         }
 
-        private void btnReplenishWarehouse_Click(object sender, EventArgs e)
+        
+
+        private void пополнениеСкладаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReplenishmentOfWarehouse>();
             form.ShowDialog();
