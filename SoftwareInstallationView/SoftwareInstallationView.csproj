@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SoftwareInstallationBusinessLogic\SoftwareInstallationBusinessLogic.csproj" />
+    <ProjectReference Include="..\SoftwareInstallationDatabaseImplement\SoftwareInstallationDatabaseImplement.csproj" />
     <ProjectReference Include="..\SoftwareInstallationFileImplement\SoftwareInstallationFileImplement.csproj" />
     <ProjectReference Include="..\SoftwareInstallationListImplement\SoftwareInstallationListImplement.csproj" />
   </ItemGroup>
