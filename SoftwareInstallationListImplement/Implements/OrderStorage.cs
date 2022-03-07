@@ -134,7 +134,7 @@ namespace SoftwareInstallationListImplement.Implements
                 PackageId = order.PackageId,
                 PackageName = packageName,
                 Count = order.Count,
-                Status = Enum.GetName(typeof(OrderStatus), order.Status),
+                Status = order.Status,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,

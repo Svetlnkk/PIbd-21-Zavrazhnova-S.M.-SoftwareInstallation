@@ -86,7 +86,7 @@ namespace SoftwareInstallationFileImplement.Implements
                 PackageName = source.Packages.FirstOrDefault(rec => rec.Id == order.PackageId)?.PackageName,
                 Count = order.Count,
                 Sum = order.Sum,
-                Status = Enum.GetName(typeof(OrderStatus), order.Status),
+                Status = order.Status,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement
             };

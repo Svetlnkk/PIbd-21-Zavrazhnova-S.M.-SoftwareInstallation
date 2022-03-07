@@ -14,10 +14,13 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly IWarehouseStorage _warehouseStorage;
+        private readonly IPackageStorage _packageStorage;
+        public OrderLogic(IOrderStorage orderStorage, IWarehouseStorage warehouseStorage, IPackageStorage packageStorage)
         {
             _orderStorage = orderStorage;
+            _warehouseStorage = warehouseStorage;
+            _packageStorage = packageStorage;
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -52,10 +55,15 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != Enum.GetName(typeof(OrderStatus), 0))
+            if (order.Status != OrderStatus.Принят)
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
+            var package = _packageStorage.GetElement(new PackageBindingModel { Id = order.PackageId });
+            if (!_warehouseStorage.CheckComponent(order.Count, package.PackageComponents))
+            {
+                throw new Exception("На складах недостаточно компонентов");
+            }            
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
@@ -75,7 +83,7 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != Enum.GetName(typeof(OrderStatus), 1))
+            if (order.Status != OrderStatus.Выполняется)
             {
                 throw new Exception("Заказ не в статусе \"Выполняется\"");
             }
@@ -98,7 +106,7 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != Enum.GetName(typeof(OrderStatus), 2))
+            if (order.Status != OrderStatus.Готов)
             {
                 throw new Exception("Заказ не в статусе \"Готов\"");
             }

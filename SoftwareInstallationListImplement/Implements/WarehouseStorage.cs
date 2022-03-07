@@ -151,5 +151,9 @@ namespace SoftwareInstallationListImplement.Implements
             }
             return warehouse;
         }
+        public bool CheckComponent(int count, Dictionary<int, (string, int)> components)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

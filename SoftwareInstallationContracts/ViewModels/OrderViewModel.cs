@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using SoftwareInstallationContracts.Enums;
 
 namespace SoftwareInstallationContracts.ViewModels
 {
@@ -18,7 +19,7 @@ namespace SoftwareInstallationContracts.ViewModels
         [DisplayName("Сумма")]
         public decimal Sum { get; set; }
         [DisplayName("Статус")]
-        public string Status { get; set; }
+        public OrderStatus Status { get; set; }
         [DisplayName("Дата создания")]
         public DateTime DateCreate { get; set; }
         [DisplayName("Дата выполнения")]

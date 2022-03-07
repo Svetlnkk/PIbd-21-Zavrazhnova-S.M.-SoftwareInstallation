@@ -16,5 +16,7 @@ namespace SoftwareInstallationContracts.StoragesContracts
         void Insert(WarehouseBindingModel model);
         void Update(WarehouseBindingModel model);
         void Delete(WarehouseBindingModel model);
+        bool CheckComponent(int count, Dictionary<int, (string, int)> components);
+
     }
 }
