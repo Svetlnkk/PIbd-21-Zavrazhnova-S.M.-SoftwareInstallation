@@ -1,5 +1,4 @@
 ﻿using SoftwareInstallationContracts.BindingModels;
-using SoftwareInstallationContracts.Enums;
 using SoftwareInstallationContracts.StoragesContracts;
 using SoftwareInstallationContracts.ViewModels;
 using SoftwareInstallationListImplement.Models;
@@ -134,7 +133,7 @@ namespace SoftwareInstallationListImplement.Implements
                 PackageId = order.PackageId,
                 PackageName = packageName,
                 Count = order.Count,
-                Status = Enum.GetName(typeof(OrderStatus), order.Status),
+                Status = order.Status,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,

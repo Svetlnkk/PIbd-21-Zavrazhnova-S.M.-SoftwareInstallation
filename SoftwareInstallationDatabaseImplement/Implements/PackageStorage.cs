@@ -15,8 +15,10 @@ namespace SoftwareInstallationDatabaseImplement.Implements
     {
         public List<PackageViewModel> GetFullList()
         {
-            using var context = new SoftwareInstallationDatabase();
-            return context.Packages.Include(rec => rec.PackageComponents).ThenInclude(rec => rec.Component).ToList().Select(CreateModel).ToList();
+            using (var context = new SoftwareInstallationDatabase())
+            {
+                return context.Packages.Include(rec => rec.PackageComponents).ThenInclude(rec => rec.Component).ToList().Select(CreateModel).ToList();
+            }
         }
         public List<PackageViewModel> GetFilteredList(PackageBindingModel model)
         {
@@ -24,8 +26,10 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context = new SoftwareInstallationDatabase();
-            return context.Packages.Include(rec => rec.PackageComponents).ThenInclude(rec => rec.Component).Where(rec => rec.PackageName.Contains(model.PackageName)).ToList().Select(CreateModel).ToList();
+            using (var context = new SoftwareInstallationDatabase())
+            {
+                return context.Packages.Include(rec => rec.PackageComponents).ThenInclude(rec => rec.Component).Where(rec => rec.PackageName.Contains(model.PackageName)).ToList().Select(CreateModel).ToList();
+            }
         }
         public PackageViewModel GetElement(PackageBindingModel model)
         {
@@ -33,65 +37,77 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context = new SoftwareInstallationDatabase();
-            var package = context.Packages.Include(rec => rec.PackageComponents).ThenInclude(rec => rec.Component).FirstOrDefault(rec => rec.PackageName == model.PackageName || rec.Id == model.Id);
-            return package != null ? CreateModel(package) : null;
+            using (var context = new SoftwareInstallationDatabase())
+            {
+                var package = context.Packages.Include(rec => rec.PackageComponents).ThenInclude(rec => rec.Component).FirstOrDefault(rec => rec.PackageName == model.PackageName || rec.Id == model.Id);
+                return package != null ? CreateModel(package) : null;
+            }
         }
         public void Insert(PackageBindingModel model)
         {
-            using var context = new SoftwareInstallationDatabase();
-            using var transaction = context.Database.BeginTransaction();
-            try
+            using (var context = new SoftwareInstallationDatabase())
             {
-                Package package = new Package()
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    PackageName = model.PackageName,
-                    Price = model.Price
-                };
-                context.Packages.Add(package);
-                context.SaveChanges();
-                CreateModel(model, package, context);
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
+                    try
+                    {
+                        Package package = new Package()
+                        {
+                            PackageName = model.PackageName,
+                            Price = model.Price
+                        };
+                        context.Packages.Add(package);
+                        context.SaveChanges();
+                        CreateModel(model, package, context);
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
             }
         }
         public void Update(PackageBindingModel model)
         {
-            using var context = new SoftwareInstallationDatabase();
-            using var transaction = context.Database.BeginTransaction();
-            try
+            using (var context = new SoftwareInstallationDatabase())
             {
-                var element = context.Packages.FirstOrDefault(rec => rec.Id == model.Id);
-                if (element == null)
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    throw new Exception("Элемент не найден");
+                    try
+                    {
+                        var element = context.Packages.FirstOrDefault(rec => rec.Id == model.Id);
+                        if (element == null)
+                        {
+                            throw new Exception("Элемент не найден");
+                        }
+                        CreateModel(model, element, context);
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
-                CreateModel(model, element, context);
-                context.SaveChanges();
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
             }
         }
         public void Delete(PackageBindingModel model)
         {
-            using var context = new SoftwareInstallationDatabase();
-            Package element = context.Packages.FirstOrDefault(rec => rec.Id == model.Id);
-            if (element != null)
+            using (var context = new SoftwareInstallationDatabase())
             {
-                context.Packages.Remove(element);
-                context.SaveChanges();
-            }
-            else
-            {
-                throw new Exception("Элемент не найден");
+                Package element = context.Packages.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element != null)
+                {
+                    context.Packages.Remove(element);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Элемент не найден");
+                }
             }
         }
         private static Package CreateModel(PackageBindingModel model, Package package, SoftwareInstallationDatabase context)
