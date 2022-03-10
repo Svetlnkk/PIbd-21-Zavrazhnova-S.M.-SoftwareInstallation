@@ -36,8 +36,7 @@ namespace SoftwareInstallationView
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;                    
-                    dataGridView.Columns[3].Visible = false;
+                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     dataGridView.Columns[4].Visible = false;
                 }
             }
@@ -61,7 +60,7 @@ namespace SoftwareInstallationView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = Program.Container.Resolve<FormPackage>();
-                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[1].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -75,7 +74,7 @@ namespace SoftwareInstallationView
             {
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                    int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[1].Value);
                     try
                     {
                         _logic.Delete(new PackageBindingModel { Id = id });

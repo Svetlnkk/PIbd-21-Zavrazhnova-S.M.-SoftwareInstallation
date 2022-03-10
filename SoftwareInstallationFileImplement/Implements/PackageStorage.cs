@@ -35,8 +35,7 @@ namespace SoftwareInstallationFileImplement.Implements
             {
                 return null;
             }
-            var package = source.Packages.FirstOrDefault(rec => rec.PackageName == model.PackageName ||
-                rec.Id == model.Id);
+            var package = source.Packages.FirstOrDefault(rec => rec.PackageName == model.PackageName || rec.Id == model.Id);
             return package != null ? CreateModel(package) : null;
         }
         public void Insert(PackageBindingModel model)
