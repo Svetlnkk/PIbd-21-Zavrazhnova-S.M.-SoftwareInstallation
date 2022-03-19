@@ -60,10 +60,17 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
             var package = _packageStorage.GetElement(new PackageBindingModel { Id = order.PackageId });
-            if (!_warehouseStorage.CheckComponent(order.Count, package.PackageComponents))
+            try
             {
-                throw new Exception("На складах недостаточно компонентов");
-            }            
+                if (!_warehouseStorage.CheckComponent(order.Count, package.PackageComponents))
+                {
+                    throw new Exception("На складах недостаточно компонентов");
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
