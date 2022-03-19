@@ -1,5 +1,4 @@
 ﻿using SoftwareInstallationContracts.BindingModels;
-using SoftwareInstallationContracts.Enums;
 using SoftwareInstallationContracts.StoragesContracts;
 using SoftwareInstallationContracts.ViewModels;
 using SoftwareInstallationListImplement.Models;
