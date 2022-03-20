@@ -11,11 +11,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="ReportViewerCore.WinForms" Version="15.1.16" />
     <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SoftwareInstallationBusinessLogic\SoftwareInstallationBusinessLogic.csproj" />
+    <ProjectReference Include="..\SoftwareInstallationContracts\SoftwareInstallationContracts.csproj" />
     <ProjectReference Include="..\SoftwareInstallationDatabaseImplement\SoftwareInstallationDatabaseImplement.csproj" />
     <ProjectReference Include="..\SoftwareInstallationFileImplement\SoftwareInstallationFileImplement.csproj" />
     <ProjectReference Include="..\SoftwareInstallationListImplement\SoftwareInstallationListImplement.csproj" />
