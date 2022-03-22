@@ -31,8 +31,8 @@ namespace SoftwareInstallationView
                     dataGridView.Rows.Clear();
                     foreach (var elem in dict)
                     {
-                        dataGridView.Rows.Add(new object[] { elem.ComponentName, "", ""});
-                        foreach (var listElem in elem.Packages)
+                        dataGridView.Rows.Add(new object[] { elem.PackageName, "", ""});
+                        foreach (var listElem in elem.Components)
                         {
                             dataGridView.Rows.Add(new object[] { "", listElem.Item1,listElem.Item2 });
                         }
@@ -43,8 +43,7 @@ namespace SoftwareInstallationView
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
 
         }

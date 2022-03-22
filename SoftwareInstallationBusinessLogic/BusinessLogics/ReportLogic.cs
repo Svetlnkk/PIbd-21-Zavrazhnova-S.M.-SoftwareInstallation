@@ -2,6 +2,7 @@
 using SoftwareInstallationBusinessLogic.OfficePackage.HelperModels;
 using SoftwareInstallationContracts.BindingModels;
 using SoftwareInstallationContracts.BusinessLogicsContracts;
+using SoftwareInstallationContracts.Enums;
 using SoftwareInstallationContracts.StoragesContracts;
 using SoftwareInstallationContracts.ViewModels;
 using System;
@@ -33,25 +34,20 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
         /// Получение списка компонент с указанием, в каких изделиях используются
         public List<ReportPackageComponentViewModel> GetPackageComponent()
         {
-            var components = _componentStorage.GetFullList();
             var packages = _packageStorage.GetFullList();
             var list = new List<ReportPackageComponentViewModel>();
-            foreach (var component in components)
+            foreach (var pc in packages)
             {
                 var record = new ReportPackageComponentViewModel
                 {
-                    ComponentName = component.ComponentName,
-                    Packages = new List<Tuple<string, int>>(),
+                    PackageName = pc.PackageName,
+                    Components = new List<Tuple<string, int>>(),
                     TotalCount = 0
                 };
-                foreach (var package in packages)
-                {
-                    if (package.PackageComponents.ContainsKey(component.Id))
-                    {
-                        record.Packages.Add(new Tuple<string, int>(package.PackageName,
-                       package.PackageComponents[component.Id].Item2));
-                        record.TotalCount += package.PackageComponents[component.Id].Item2;
-                    }
+                foreach (var package in pc.PackageComponents)
+                {                    
+                        record.Components.Add(new Tuple<string, int>(package.Value.Item1,package.Value.Item2));
+                        record.TotalCount += package.Value.Item2;                  
                 }
                 list.Add(record);
             }
@@ -71,7 +67,7 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
                 PackageName = x.PackageName,
                 Count = x.Count,
                 Sum = x.Sum,
-                Status = x.Status
+                Status = Enum.GetName(typeof(OrderStatus),x.Status)
             })
            .ToList();
         }
@@ -81,8 +77,8 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             _saveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
-                Title = "Список компонент",
-                Components = _componentStorage.GetFullList()
+                Title = "Список изделий",
+                Packages = _packageStorage.GetFullList()
             });
         }
         /// Сохранение компонент с указаеним продуктов в файл-Excel

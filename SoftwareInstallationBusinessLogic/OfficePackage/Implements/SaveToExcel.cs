@@ -199,8 +199,7 @@ SpreadsheetDocumentType.Workbook);
             workbookpart.Workbook = new Workbook();
             CreateStyles(workbookpart);
             // Получаем/создаем хранилище текстов для книги
-            _shareStringPart =
-           _spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().Any()?
+            _shareStringPart =_spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().Any()?
            _spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First()
            : _spreadsheetDocument.WorkbookPart.AddNewPart<SharedStringTablePart>();
             // Создаем SharedStringTable, если его нет

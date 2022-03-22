@@ -38,7 +38,7 @@ namespace SoftwareInstallationListImplement.Implements
             List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var Order in _source.Orders)
             {
-                if (Order.PackageId == model.PackageId)
+                if (Order.PackageId == model.PackageId || Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo)
                 {
                     result.Add(CreateModel(Order));
                 }

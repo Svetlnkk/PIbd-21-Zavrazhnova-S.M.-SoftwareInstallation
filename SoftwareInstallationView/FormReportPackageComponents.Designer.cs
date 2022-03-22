@@ -30,10 +30,10 @@ namespace SoftwareInstallationView
         private void InitializeComponent()
         {
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.btnSaveToExcel = new System.Windows.Forms.Button();
             this.ColumnComponent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPackage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnSaveToExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,27 +52,6 @@ namespace SoftwareInstallationView
             this.dataGridView.Size = new System.Drawing.Size(666, 517);
             this.dataGridView.TabIndex = 0;
             // 
-            // ColumnComponent
-            // 
-            this.ColumnComponent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnComponent.HeaderText = "Компонент";
-            this.ColumnComponent.MinimumWidth = 6;
-            this.ColumnComponent.Name = "ColumnComponent";
-            // 
-            // ColumnPackage
-            // 
-            this.ColumnPackage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnPackage.HeaderText = "Изделие";
-            this.ColumnPackage.MinimumWidth = 6;
-            this.ColumnPackage.Name = "ColumnPackage";
-            // 
-            // ColumnCount
-            // 
-            this.ColumnCount.HeaderText = "Количество";
-            this.ColumnCount.MinimumWidth = 6;
-            this.ColumnCount.Name = "ColumnCount";
-            this.ColumnCount.Width = 125;
-            // 
             // btnSaveToExcel
             // 
             this.btnSaveToExcel.Location = new System.Drawing.Point(27, 12);
@@ -82,6 +61,27 @@ namespace SoftwareInstallationView
             this.btnSaveToExcel.Text = "Сохранить в Excel";
             this.btnSaveToExcel.UseVisualStyleBackColor = true;
             this.btnSaveToExcel.Click += new System.EventHandler(this.btnSaveToExcel_Click);
+            // 
+            // ColumnComponent
+            // 
+            this.ColumnComponent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnComponent.HeaderText = "Изделие";
+            this.ColumnComponent.MinimumWidth = 6;
+            this.ColumnComponent.Name = "ColumnComponent";
+            // 
+            // ColumnPackage
+            // 
+            this.ColumnPackage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnPackage.HeaderText = "Компонент";
+            this.ColumnPackage.MinimumWidth = 6;
+            this.ColumnPackage.Name = "ColumnPackage";
+            // 
+            // ColumnCount
+            // 
+            this.ColumnCount.HeaderText = "Количество";
+            this.ColumnCount.MinimumWidth = 6;
+            this.ColumnCount.Name = "ColumnCount";
+            this.ColumnCount.Width = 125;
             // 
             // FormReportPackageComponents
             // 
@@ -101,9 +101,9 @@ namespace SoftwareInstallationView
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.Button btnSaveToExcel;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnComponent;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPackage;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCount;
-        private System.Windows.Forms.Button btnSaveToExcel;
     }
 }

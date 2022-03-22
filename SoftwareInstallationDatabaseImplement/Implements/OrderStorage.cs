@@ -17,7 +17,7 @@ namespace SoftwareInstallationDatabaseImplement.Implements
         {
             using (var context = new SoftwareInstallationDatabase())
             {
-                return context.Orders.Include(rec => rec.Package).Select(rec => new OrderViewModel
+                return context.Orders.Include(rec => rec.Package).ToList().Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     PackageId = rec.PackageId,
@@ -38,7 +38,9 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             }
             using (var context = new SoftwareInstallationDatabase())
             {
-                return context.Orders.Include(rec => rec.Package).Where(rec => rec.PackageId == model.PackageId).Select(rec => new OrderViewModel
+                return context.Orders.Include(rec => rec.Package)
+                    .Where(rec => rec.PackageId == model.PackageId || rec.DateCreate>=model.DateFrom && rec.DateCreate<=model.DateTo)
+                    .ToList().Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     PackageId = rec.PackageId,
@@ -59,7 +61,7 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             }
             using (var context = new SoftwareInstallationDatabase())
             {
-                var order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                var order = context.Orders.Include(rec=>rec.Package).FirstOrDefault(rec => rec.Id == model.Id);
                 return order != null ? CreateModel(order, context) : null;
             }
         }
@@ -67,21 +69,45 @@ namespace SoftwareInstallationDatabaseImplement.Implements
         {
             using (var context = new SoftwareInstallationDatabase())
             {
-                context.Orders.Add(CreateModel(model, new Order()));
-                context.SaveChanges();
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        context.Orders.Add(CreateModel(model, new Order()));
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
             }
         }
         public void Update(OrderBindingModel model)
         {
             using (var context = new SoftwareInstallationDatabase())
             {
-                var element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-                if (element == null)
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    throw new Exception("Элемент не найден");
+                    try
+                    {
+                        var element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                        if (element == null)
+                        {
+                            throw new Exception("Элемент не найден");
+                        }
+                        CreateModel(model, element);
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
-                CreateModel(model, element);
-                context.SaveChanges();
             }
         }
         public void Delete(OrderBindingModel model)
@@ -116,6 +142,7 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             {
                 Id = order.Id,
                 PackageId = order.PackageId,
+                //PackageName=order.Package.PackageName,
                 PackageName = context.Packages.FirstOrDefault(rec => rec.Id == order.PackageId)?.PackageName,
                 Count = order.Count,
                 Sum = order.Sum,

@@ -68,8 +68,7 @@ namespace SoftwareInstallationBusinessLogic.OfficePackage.Implements
         }
         protected override void CreateWord(WordInfo info)
         {
-            _wordDocument = WordprocessingDocument.Create(info.FileName,
-           WordprocessingDocumentType.Document);
+            _wordDocument = WordprocessingDocument.Create(info.FileName,WordprocessingDocumentType.Document);
             MainDocumentPart mainPart = _wordDocument.AddMainDocumentPart();
             mainPart.Document = new Document();
             _docBody = mainPart.Document.AppendChild(new Body());
@@ -94,8 +93,7 @@ namespace SoftwareInstallationBusinessLogic.OfficePackage.Implements
                     docRun.AppendChild(new Text
                     {
                         Text = run.Item1,
-                        Space =
-                   SpaceProcessingModeValues.Preserve
+                        Space =SpaceProcessingModeValues.Preserve
                     });
                     docParagraph.AppendChild(docRun);
                 }

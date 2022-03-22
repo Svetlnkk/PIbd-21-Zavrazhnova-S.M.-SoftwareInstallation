@@ -32,10 +32,17 @@ namespace SoftwareInstallationBusinessLogic.OfficePackage
             {
                 CreateRow(new PdfRowParameters
                 {
-                    Texts = new List<string> { order.DateCreate.ToShortDateString(),order.PackageName, order.Count.ToString(), order.Sum.ToString(), order.Status.ToString()},                    Style = "Normal",
+                    Texts = new List<string> { order.DateCreate.ToShortDateString(),order.PackageName, order.Count.ToString(), order.Sum.ToString(), order.Status.ToString()},  
+                    Style = "Normal",
                     ParagraphAlignment = PdfParagraphAlignmentType.Left
                 });
             }
+            decimal sum = info.Orders.Sum(rec => rec.Sum);
+            CreateParagraph(new PdfParagraph
+            {
+                Text = $"Итого: {sum}",
+                Style = "NormalTitle",
+            });
             SavePdf(info);
         }
         /// Создание doc-файла

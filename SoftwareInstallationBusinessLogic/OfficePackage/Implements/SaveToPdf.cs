@@ -47,6 +47,7 @@ namespace SoftwareInstallationBusinessLogic.OfficePackage.Implements
             paragraph.Format.SpaceAfter = "1cm";
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = pdfParagraph.Style;
+            paragraph.Format.SpaceBefore = "0.5cm";
         }
         protected override void CreateTable(List<string> columns)
         {
