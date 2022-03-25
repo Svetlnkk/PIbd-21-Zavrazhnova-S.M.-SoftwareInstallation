@@ -142,7 +142,6 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             {
                 Id = order.Id,
                 PackageId = order.PackageId,
-                //PackageName=order.Package.PackageName,
                 PackageName = context.Packages.FirstOrDefault(rec => rec.Id == order.PackageId)?.PackageName,
                 Count = order.Count,
                 Sum = order.Sum,
