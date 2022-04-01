@@ -67,7 +67,8 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
                 PackageName = x.PackageName,
                 Count = x.Count,
                 Sum = x.Sum,
-                Status = Enum.GetName(typeof(OrderStatus),x.Status)
+                Status = Enum.GetName(typeof(OrderStatus),x.Status),
+                ClientFIO = x.ClientFIO
             })
            .ToList();
         }

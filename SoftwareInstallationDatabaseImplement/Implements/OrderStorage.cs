@@ -26,7 +26,9 @@ namespace SoftwareInstallationDatabaseImplement.Implements
                     Sum = rec.Sum,
                     Status =rec.Status,
                     DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement
+                    DateImplement = rec.DateImplement,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.ClientFIO
                 }).ToList();
             }
         }
@@ -38,7 +40,7 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             }
             using (var context = new SoftwareInstallationDatabase())
             {
-                return context.Orders.Include(rec => rec.Package)
+                return context.Orders.Include(rec => rec.Package).Include(rec => rec.Client)
                     .Where(rec => rec.PackageId == model.PackageId || rec.DateCreate>=model.DateFrom && rec.DateCreate<=model.DateTo)
                     .ToList().Select(rec => new OrderViewModel
                 {
@@ -49,8 +51,10 @@ namespace SoftwareInstallationDatabaseImplement.Implements
                     Sum = rec.Sum,
                     Status = rec.Status,
                     DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement
-                }).ToList();
+                    DateImplement = rec.DateImplement,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.ClientFIO
+                    }).ToList();
             }
         }
         public OrderViewModel GetElement(OrderBindingModel model)
@@ -134,6 +138,7 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
+            order.ClientId = model.ClientId.Value;
             return order;
         }
         public OrderViewModel CreateModel(Order order, SoftwareInstallationDatabase context)
@@ -147,7 +152,9 @@ namespace SoftwareInstallationDatabaseImplement.Implements
                 Sum = order.Sum,
                 Status = order.Status,
                 DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement
+                DateImplement = order.DateImplement,
+                ClientId = order.ClientId,
+                ClientFIO = order.Client.ClientFIO
             };
         }
     }

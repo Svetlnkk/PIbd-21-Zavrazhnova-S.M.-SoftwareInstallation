@@ -13,6 +13,8 @@ namespace SoftwareInstallationDatabaseImplement.Models
         public int Id { get; set; }
         public int PackageId { get; set; }
         public virtual Package Package { get; set; }
+        public int ClientId { get; set; }
+        public virtual Client Client { get; set; }
         [Required]
         public int Count { get; set; }
         [Required]

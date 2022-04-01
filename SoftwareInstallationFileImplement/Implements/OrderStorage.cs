@@ -27,7 +27,7 @@ namespace SoftwareInstallationFileImplement.Implements
             {
                 return null;
             }
-            return source.Orders.Where(rec => rec.PackageId == model.PackageId || rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+            return source.Orders.Where(rec => rec.PackageId == model.PackageId || (rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) || model.ClientId.HasValue && rec.ClientId == model.ClientId.Value)
                 .Select(CreateModel).ToList();
         }
         public OrderViewModel GetElement(OrderBindingModel model)
@@ -75,6 +75,7 @@ namespace SoftwareInstallationFileImplement.Implements
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
+            order.ClientId = model.ClientId.Value;
             return order;
         }
         public OrderViewModel CreateModel(Order order)
@@ -83,6 +84,8 @@ namespace SoftwareInstallationFileImplement.Implements
             {
                 Id = order.Id,
                 PackageId = order.PackageId,
+                ClientId = order.ClientId,
+                ClientFIO = source.Clients.FirstOrDefault(rec => rec.Id == order.ClientId)?.FIO,
                 PackageName = source.Packages.FirstOrDefault(rec => rec.Id == order.PackageId)?.PackageName,
                 Count = order.Count,
                 Sum = order.Sum,
