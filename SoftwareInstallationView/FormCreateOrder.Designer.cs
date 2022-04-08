@@ -37,11 +37,13 @@ namespace SoftwareInstallationView
             this.textBoxSum = new System.Windows.Forms.TextBox();
             this.textBoxCount = new System.Windows.Forms.TextBox();
             this.comboBoxPackage = new System.Windows.Forms.ComboBox();
+            this.comboBoxClient = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(179, 174);
+            this.btnSave.Location = new System.Drawing.Point(187, 236);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(94, 29);
             this.btnSave.TabIndex = 0;
@@ -51,7 +53,7 @@ namespace SoftwareInstallationView
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(334, 174);
+            this.btnCancel.Location = new System.Drawing.Point(350, 236);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(94, 29);
             this.btnCancel.TabIndex = 1;
@@ -71,7 +73,7 @@ namespace SoftwareInstallationView
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 69);
+            this.label2.Location = new System.Drawing.Point(21, 122);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(93, 20);
             this.label2.TabIndex = 3;
@@ -80,7 +82,7 @@ namespace SoftwareInstallationView
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 124);
+            this.label3.Location = new System.Drawing.Point(34, 183);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 20);
             this.label3.TabIndex = 4;
@@ -88,14 +90,14 @@ namespace SoftwareInstallationView
             // 
             // textBoxSum
             // 
-            this.textBoxSum.Location = new System.Drawing.Point(142, 117);
+            this.textBoxSum.Location = new System.Drawing.Point(142, 180);
             this.textBoxSum.Name = "textBoxSum";
             this.textBoxSum.Size = new System.Drawing.Size(314, 27);
             this.textBoxSum.TabIndex = 5;
             // 
             // textBoxCount
             // 
-            this.textBoxCount.Location = new System.Drawing.Point(142, 62);
+            this.textBoxCount.Location = new System.Drawing.Point(142, 122);
             this.textBoxCount.Name = "textBoxCount";
             this.textBoxCount.Size = new System.Drawing.Size(314, 27);
             this.textBoxCount.TabIndex = 6;
@@ -110,11 +112,30 @@ namespace SoftwareInstallationView
             this.comboBoxPackage.TabIndex = 7;
             this.comboBoxPackage.SelectedIndexChanged += new System.EventHandler(this.comboBoxPackage_SelectedIndexChanged);
             // 
+            // comboBoxClient
+            // 
+            this.comboBoxClient.FormattingEnabled = true;
+            this.comboBoxClient.Location = new System.Drawing.Point(142, 69);
+            this.comboBoxClient.Name = "comboBoxClient";
+            this.comboBoxClient.Size = new System.Drawing.Size(314, 28);
+            this.comboBoxClient.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(21, 77);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(61, 20);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Клиент:";
+            // 
             // FormCreateOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 230);
+            this.ClientSize = new System.Drawing.Size(539, 300);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.comboBoxClient);
             this.Controls.Add(this.comboBoxPackage);
             this.Controls.Add(this.textBoxCount);
             this.Controls.Add(this.textBoxSum);
@@ -141,5 +162,7 @@ namespace SoftwareInstallationView
         private System.Windows.Forms.TextBox textBoxSum;
         private System.Windows.Forms.TextBox textBoxCount;
         private System.Windows.Forms.ComboBox comboBoxPackage;
+        private System.Windows.Forms.ComboBox comboBoxClient;
+        private System.Windows.Forms.Label label4;
     }
 }

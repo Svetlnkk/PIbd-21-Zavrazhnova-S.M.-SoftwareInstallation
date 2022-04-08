@@ -15,21 +15,23 @@ namespace SoftwareInstallationView
 {
     public partial class FormCreateOrder : Form
     {
-        private readonly IPackageLogic _logicD;
+        private readonly IPackageLogic _logicP;
 
         private readonly IOrderLogic _logicO;
-        public FormCreateOrder(IPackageLogic logicD, IOrderLogic logicO)
+        private readonly IClientLogic _logicC;
+        public FormCreateOrder(IPackageLogic logicP, IOrderLogic logicO, IClientLogic logicC)
         {
             InitializeComponent();
-            _logicD = logicD;
+            _logicP = logicP;
             _logicO = logicO;
+            _logicC = logicC;
         }
 
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
             try
             {
-                List<PackageViewModel> list = _logicD.Read(null);
+                List<PackageViewModel> list = _logicP.Read(null);
                 if (list != null)
                 {
                     comboBoxPackage.DisplayMember = "PackageName";
@@ -40,6 +42,18 @@ namespace SoftwareInstallationView
                 else
                 {
                     throw new Exception("Не удалось загрузить список изделий");
+                }
+                List<ClientViewModel> listC = _logicC.Read(null);
+                if (listC != null)
+                {
+                    comboBoxClient.DisplayMember = "FIO";
+                    comboBoxClient.ValueMember = "Id";
+                    comboBoxClient.DataSource = listC;
+                    comboBoxClient.SelectedItem = null;
+                }
+                else
+                {
+                    throw new Exception("Не удалось загрузить список клиентов");
                 }
             }
             catch (Exception ex)
@@ -54,7 +68,7 @@ namespace SoftwareInstallationView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxPackage.SelectedValue);
-                    PackageViewModel dress = _logicD.Read(new PackageBindingModel { Id = id })?[0];
+                    PackageViewModel dress = _logicP.Read(new PackageBindingModel { Id = id })?[0];
                     int count = Convert.ToInt32(textBoxCount.Text);
                     textBoxSum.Text = (count * dress?.Price ?? 0).ToString();
                 }
@@ -87,10 +101,16 @@ namespace SoftwareInstallationView
                 MessageBox.Show("Выберите изделие", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (comboBoxClient.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 _logicO.CreateOrder(new CreateOrderBindingModel
                 {
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue),
                     PackageId = Convert.ToInt32(comboBoxPackage.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)

@@ -17,18 +17,18 @@ namespace SoftwareInstallationDatabaseImplement.Implements
         {
             using (var context = new SoftwareInstallationDatabase())
             {
-                return context.Orders.Include(rec => rec.Package).ToList().Select(rec => new OrderViewModel
+                return context.Orders.Include(rec => rec.Package).Include(rec => rec.Client).ToList().Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
-                    PackageId = rec.PackageId,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.ClientFIO,
+                    PackageId = rec.PackageId,                    
                     PackageName = rec.Package.PackageName,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status =rec.Status,
                     DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement,
-                    ClientId = rec.ClientId,
-                    ClientFIO = rec.Client.ClientFIO
+                    DateImplement = rec.DateImplement                    
                 }).ToList();
             }
         }
@@ -41,19 +41,20 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             using (var context = new SoftwareInstallationDatabase())
             {
                 return context.Orders.Include(rec => rec.Package).Include(rec => rec.Client)
-                    .Where(rec => rec.PackageId == model.PackageId || rec.DateCreate>=model.DateFrom && rec.DateCreate<=model.DateTo)
+                    .Where(rec => rec.PackageId == model.PackageId || rec.DateCreate>=model.DateFrom && rec.DateCreate<=model.DateTo
+                    || model.ClientId.HasValue && rec.ClientId == model.ClientId)
                     .ToList().Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
-                    PackageId = rec.PackageId,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.ClientFIO,
+                    PackageId = rec.PackageId,                   
                     PackageName = rec.Package.PackageName,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
                     DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement,
-                    ClientId = rec.ClientId,
-                    ClientFIO = rec.Client.ClientFIO
+                    DateImplement = rec.DateImplement                    
                     }).ToList();
             }
         }
@@ -65,7 +66,7 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             }
             using (var context = new SoftwareInstallationDatabase())
             {
-                var order = context.Orders.Include(rec=>rec.Package).FirstOrDefault(rec => rec.Id == model.Id);
+                var order = context.Orders.Include(rec=>rec.Package).Include(rec => rec.Client).FirstOrDefault(rec => rec.Id == model.Id);
                 return order != null ? CreateModel(order, context) : null;
             }
         }
@@ -133,12 +134,12 @@ namespace SoftwareInstallationDatabaseImplement.Implements
         public static Order CreateModel(OrderBindingModel model, Order order)
         {
             order.PackageId = model.PackageId;
+            order.ClientId = model.ClientId.Value;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
-            order.DateImplement = model.DateImplement;
-            order.ClientId = model.ClientId.Value;
+            order.DateImplement = model.DateImplement;            
             return order;
         }
         public OrderViewModel CreateModel(Order order, SoftwareInstallationDatabase context)
@@ -146,15 +147,15 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFIO = order.Client.ClientFIO,
                 PackageId = order.PackageId,
                 PackageName = context.Packages.FirstOrDefault(rec => rec.Id == order.PackageId)?.PackageName,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status,
                 DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
-                ClientId = order.ClientId,
-                ClientFIO = order.Client.ClientFIO
+                DateImplement = order.DateImplement                
             };
         }
     }

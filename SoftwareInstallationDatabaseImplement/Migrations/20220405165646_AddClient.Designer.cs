@@ -10,8 +10,8 @@ using SoftwareInstallationDatabaseImplement;
 namespace SoftwareInstallationDatabaseImplement.Migrations
 {
     [DbContext(typeof(SoftwareInstallationDatabase))]
-    [Migration("20220401182714_Client")]
-    partial class Client
+    [Migration("20220405165646_AddClient")]
+    partial class AddClient
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -2,7 +2,7 @@
 
 namespace SoftwareInstallationDatabaseImplement.Migrations
 {
-    public partial class Client : Migration
+    public partial class AddClient : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

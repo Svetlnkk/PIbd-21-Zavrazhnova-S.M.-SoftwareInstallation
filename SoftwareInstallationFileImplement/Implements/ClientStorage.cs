@@ -27,7 +27,7 @@ namespace SoftwareInstallationFileImplement.Implements
             {
                 return null;
             }
-            return source.Clients.Where(rec => rec.FCs.Contains(model.FIO)).Select(CreateModel).ToList();
+            return source.Clients.Where(rec => rec.Login.Contains(model.Login)).Select(CreateModel).ToList();
         }
         public ClientViewModel GetElement(ClientBindingModel model)
         {

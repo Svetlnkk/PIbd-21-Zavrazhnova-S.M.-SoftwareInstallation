@@ -35,7 +35,7 @@ namespace SoftwareInstallationListImplement.Implements
             var result = new List<ClientViewModel>();
             foreach (var client in source.Clients)
             {
-                if (client.FCs.Contains(model.FIO))
+                if (client.Login.Contains(model.Login))
                 {
                     result.Add(CreateModel(client));
                 }
@@ -50,7 +50,7 @@ namespace SoftwareInstallationListImplement.Implements
             }
             foreach (var client in source.Clients)
             {
-                if (model.Id == client.Id)
+                if (model.Id == client.Id || client.Login == model.Login)
                 {
                     return CreateModel(client);
                 }

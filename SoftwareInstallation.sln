@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32106.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwareInstallationView", "SoftwareInstallationView\SoftwareInstallationView.csproj", "{9364A401-E6DB-47B8-A64B-FBEF24DFE89A}"
 EndProject
@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwareInstallationListImp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwareInstallationFileImplement", "SoftwareInstallationFileImplement\SoftwareInstallationFileImplement.csproj", "{443EE520-4BF6-4EB0-B939-63A0596EA040}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareInstallationDatabaseImplement", "SoftwareInstallationDatabaseImplement\SoftwareInstallationDatabaseImplement.csproj", "{FC9E5EF9-C866-49F0-88BD-C982AD474D06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwareInstallationDatabaseImplement", "SoftwareInstallationDatabaseImplement\SoftwareInstallationDatabaseImplement.csproj", "{FC9E5EF9-C866-49F0-88BD-C982AD474D06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareInstallationRestApi", "SoftwareInstallationRestApi\SoftwareInstallationRestApi.csproj", "{1D0B4799-1384-4359-A161-021D6AA36DBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwareInstallationClientApp", "SoftwareInstallationClientApp\SoftwareInstallationClientApp.csproj", "{FC0DEDFC-5871-46E1-8681-652527C44C9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{FC9E5EF9-C866-49F0-88BD-C982AD474D06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC9E5EF9-C866-49F0-88BD-C982AD474D06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC9E5EF9-C866-49F0-88BD-C982AD474D06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D0B4799-1384-4359-A161-021D6AA36DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D0B4799-1384-4359-A161-021D6AA36DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D0B4799-1384-4359-A161-021D6AA36DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D0B4799-1384-4359-A161-021D6AA36DBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC0DEDFC-5871-46E1-8681-652527C44C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC0DEDFC-5871-46E1-8681-652527C44C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC0DEDFC-5871-46E1-8681-652527C44C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC0DEDFC-5871-46E1-8681-652527C44C9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

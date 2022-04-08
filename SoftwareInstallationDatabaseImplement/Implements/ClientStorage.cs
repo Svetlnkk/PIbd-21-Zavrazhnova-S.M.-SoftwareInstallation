@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SoftwareInstallationDatabaseImplement.Implements
 {
@@ -14,8 +15,10 @@ namespace SoftwareInstallationDatabaseImplement.Implements
     {
         public List<ClientViewModel> GetFullList()
         {
-            using var context = new SoftwareInstallationDatabase();
-            return context.Clients.Select(CreateModel).ToList();
+            using (var context = new SoftwareInstallationDatabase())
+            {
+                return context.Clients.Select(CreateModel).ToList();
+            }
         }
         public List<ClientViewModel> GetFilteredList(ClientBindingModel model)
         {
@@ -23,8 +26,10 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context = new SoftwareInstallationDatabase();
-            return context.Clients.Where(rec => rec.Login == model.Login && rec.Password == model.Password).Select(CreateModel).ToList();
+            using (var context = new SoftwareInstallationDatabase())
+            {
+                return context.Clients.Include(rec => rec.Orders).Where(rec => rec.Login == model.Login).Select(CreateModel).ToList();
+            }
         }
         public ClientViewModel GetElement(ClientBindingModel model)
         {
@@ -32,39 +37,71 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context = new SoftwareInstallationDatabase();
-            var client = context.Clients.FirstOrDefault(rec => rec.Login == model.Login || rec.Id == model.Id);
-            return client != null ? CreateModel(client) : null;
+            using (var context = new SoftwareInstallationDatabase())
+            {
+                var client = context.Clients.Include(rec => rec.Orders).FirstOrDefault(rec => rec.Login == model.Login || rec.Id == model.Id);
+                return client != null ? CreateModel(client) : null;
+            }
         }
         public void Insert(ClientBindingModel model)
         {
-            using var context = new SoftwareInstallationDatabase();
-            context.Clients.Add(CreateModel(model, new Client()));
-            context.SaveChanges();
+            using (var context = new SoftwareInstallationDatabase())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        context.Clients.Add(CreateModel(model, new Client()));
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
         }
         public void Update(ClientBindingModel model)
         {
-            using var context = new SoftwareInstallationDatabase();
-            var client = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
-            if (client == null)
+            using (var context = new SoftwareInstallationDatabase())
             {
-                throw new Exception("Клиент не найден");
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var element = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
+                        if (element == null)
+                        {
+                            throw new Exception("Элемент не найден");
+                        }
+                        CreateModel(model, element);
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
             }
-            CreateModel(model, client);
-            context.SaveChanges();
         }
         public void Delete(ClientBindingModel model)
         {
-            using var context = new SoftwareInstallationDatabase();
-            Client client = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
-            if (client != null)
+            using (var context = new SoftwareInstallationDatabase())
             {
-                context.Clients.Remove(client);
-                context.SaveChanges();
-            }
-            else
-            {
-                throw new Exception("Клиент не найден");
+                Client client = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
+                if (client != null)
+                {
+                    context.Clients.Remove(client);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Клиент не найден");
+                }
             }
         }
         private static Client CreateModel(ClientBindingModel model, Client client)
