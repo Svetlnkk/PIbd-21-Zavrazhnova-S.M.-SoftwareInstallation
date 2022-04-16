@@ -15,16 +15,19 @@ namespace SoftwareInstallationFileImplement
         private readonly string ComponentFileName = "Component.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string PackageFileName = "Package.xml";
+        private readonly string ClientFileName = "Client.xml";
         private readonly string WarehouseFileName = "Warehouse.xml";
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Package> Packages { get; set; }
+        public List<Client> Clients { get; set; }
         public List<Warehouse> Warehouses { get; set; }
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
             Packages = LoadPackages();
+            Clients = LoadClients();
             Warehouses = LoadWarehouses();
         }
         public static FileDataListSingleton GetInstance()
@@ -40,6 +43,7 @@ namespace SoftwareInstallationFileImplement
             SaveComponents();
             SaveOrders();
             SavePackages();
+            SaveClients();
             SaveWarehouses();
         }
 
@@ -82,6 +86,7 @@ namespace SoftwareInstallationFileImplement
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         PackageId = Convert.ToInt32(elem.Element("PackageId").Value),
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = status,
@@ -147,6 +152,26 @@ namespace SoftwareInstallationFileImplement
             }
             return list;
         }
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+            if (File.Exists(ClientFileName))
+            {
+                var xDocument = XDocument.Load(ClientFileName);
+                var xElements = xDocument.Root.Elements("Client").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        FIO = elem.Element("ClientFIO").Value,
+                        Login = elem.Element("Login").Value,
+                        Password = elem.Element("Password").Value
+                    });
+                }
+            }
+            return list;
+        }
         private void SaveComponents()
         {
             if (Components != null)
@@ -162,6 +187,48 @@ namespace SoftwareInstallationFileImplement
                 xDocument.Save(ComponentFileName);
             }
         }
+        private void SaveClients()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+                foreach (var client in Clients)
+                {
+                    xElement.Add(new XElement("Client",
+                        new XAttribute("Id", client.Id),
+                        new XElement("ClientFIO", client.FIO),
+                        new XElement("Login", client.Login),
+                        new XElement("Password", client.Password)));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
+            }
+        }
+        private void SaveWarehouses()
+        {
+            if (Warehouses != null)
+            {
+                var xElement = new XElement("Warehouses");
+                foreach (var warehouse in Warehouses)
+                {
+                    var compElement = new XElement("WarehouseComponents");
+                    foreach (var component in warehouse.WarehouseComponents)
+                    {
+                        compElement.Add(new XElement("WarehouseComponent",
+                            new XElement("Key", component.Key),
+                            new XElement("Value", component.Value)));
+                    }
+                    xElement.Add(new XElement("Warehouse",
+                        new XAttribute("Id", warehouse.Id),
+                        new XElement("WarehouseName", warehouse.WarehouseName),
+                        new XElement("Responsible", warehouse.Responsible),
+                        new XElement("DateCreate", warehouse.DateCreate),
+                        compElement));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(WarehouseFileName);
+            }
+        }
         private void SaveOrders()
         {
             if (Orders != null)
@@ -172,6 +239,7 @@ namespace SoftwareInstallationFileImplement
                     xElement.Add(new XElement("Order",
                         new XAttribute("Id", order.Id),
                         new XElement("PackageId", order.PackageId),
+                         new XElement("ClientId", order.ClientId),
                         new XElement("Count", order.Count),
                         new XElement("Sum", order.Sum),
                         new XElement("Status", order.Status),
@@ -206,36 +274,12 @@ namespace SoftwareInstallationFileImplement
                 xDocument.Save(PackageFileName);
             }
         }
-        private void SaveWarehouses()
-        {
-            if (Warehouses != null)
-            {
-                var xElement = new XElement("Warehouses");
-                foreach (var warehouse in Warehouses)
-                {
-                    var compElement = new XElement("WarehouseComponents");
-                    foreach (var component in warehouse.WarehouseComponents)
-                    {
-                        compElement.Add(new XElement("WarehouseComponent",
-                            new XElement("Key", component.Key),
-                            new XElement("Value", component.Value)));
-                    }
-                    xElement.Add(new XElement("Warehouse",
-                        new XAttribute("Id", warehouse.Id),
-                        new XElement("WarehouseName", warehouse.WarehouseName),
-                        new XElement("Responsible", warehouse.Responsible),
-                        new XElement("DateCreate", warehouse.DateCreate),
-                        compElement));
-                }
-                var xDocument = new XDocument(xElement);
-                xDocument.Save(WarehouseFileName);
-            }
-        }
         public static void Save()
         {
             instance.SaveOrders();
             instance.SavePackages();
             instance.SaveComponents();
+            instance.SaveClients();
             instance.SaveWarehouses();
         }
         

@@ -38,7 +38,7 @@ namespace SoftwareInstallationListImplement.Implements
             List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var Order in _source.Orders)
             {
-                if (Order.PackageId == model.PackageId || Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo)
+                if (Order.PackageId == model.PackageId || (Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo) || model.ClientId.HasValue && Order.ClientId == model.ClientId.Value)
                 {
                     result.Add(CreateModel(Order));
                 }
@@ -113,6 +113,7 @@ namespace SoftwareInstallationListImplement.Implements
             order.Sum = model.Sum;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
+            order.ClientId = model.ClientId.Value;
             return order;
         }
 
@@ -127,6 +128,15 @@ namespace SoftwareInstallationListImplement.Implements
                     break;
                 }
             }
+            string clientFIO = "";
+            foreach (var client in _source.Clients)
+            {
+                if (client.Id == order.ClientId)
+                {
+                    clientFIO = client.FIO;
+                    break;
+                }
+            }
             return new OrderViewModel
             {
                 Id = order.Id,
@@ -137,6 +147,8 @@ namespace SoftwareInstallationListImplement.Implements
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
+                ClientId = order.ClientId,
+                ClientFIO = clientFIO
             };
         }
     }

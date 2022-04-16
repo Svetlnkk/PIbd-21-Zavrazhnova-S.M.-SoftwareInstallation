@@ -38,9 +38,6 @@ namespace SoftwareInstallationView
             this.списокДеталейToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.изделияПоКомпонентамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.списокСкладовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.складыПоКомпонентамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.списокЗаказовПоДатеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.btnCreateOrder = new System.Windows.Forms.Button();
             this.btnTakeOrderInWork = new System.Windows.Forms.Button();
@@ -48,6 +45,10 @@ namespace SoftwareInstallationView
             this.btnRefreshList = new System.Windows.Forms.Button();
             this.btnIssuedOrder = new System.Windows.Forms.Button();
             this.складыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.списокСкладовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.складыПоКомпонентамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.списокЗаказовПоДатеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -70,7 +71,8 @@ namespace SoftwareInstallationView
             this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.компонентыToolStripMenuItem,
             this.изделияToolStripMenuItem,
-            this.складыToolStripMenuItem});
+            this.складыToolStripMenuItem,
+            this.клиентыToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(117, 24);
             this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -129,27 +131,6 @@ namespace SoftwareInstallationView
             this.списокЗаказовToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
             this.списокЗаказовToolStripMenuItem.Text = "Список заказов";
             this.списокЗаказовToolStripMenuItem.Click += new System.EventHandler(this.списокЗаказовToolStripMenuItem_Click);
-            // 
-            // списокСкладовToolStripMenuItem
-            // 
-            this.списокСкладовToolStripMenuItem.Name = "списокСкладовToolStripMenuItem";
-            this.списокСкладовToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
-            this.списокСкладовToolStripMenuItem.Text = "Список складов";
-            this.списокСкладовToolStripMenuItem.Click += new System.EventHandler(this.списокСкладовToolStripMenuItem_Click);
-            // 
-            // складыПоКомпонентамToolStripMenuItem
-            // 
-            this.складыПоКомпонентамToolStripMenuItem.Name = "складыПоКомпонентамToolStripMenuItem";
-            this.складыПоКомпонентамToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
-            this.складыПоКомпонентамToolStripMenuItem.Text = "Склады по компонентам";
-            this.складыПоКомпонентамToolStripMenuItem.Click += new System.EventHandler(this.складыПоКомпонентамToolStripMenuItem_Click);
-            // 
-            // списокЗаказовПоДатеToolStripMenuItem
-            // 
-            this.списокЗаказовПоДатеToolStripMenuItem.Name = "списокЗаказовПоДатеToolStripMenuItem";
-            this.списокЗаказовПоДатеToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
-            this.списокЗаказовПоДатеToolStripMenuItem.Text = "Список заказов по дате";
-            this.списокЗаказовПоДатеToolStripMenuItem.Click += new System.EventHandler(this.списокЗаказовПоДатеToolStripMenuItem_Click);
             // 
             // dataGridView
             // 
@@ -219,6 +200,34 @@ namespace SoftwareInstallationView
             this.складыToolStripMenuItem.Text = "Склады";
             this.складыToolStripMenuItem.Click += new System.EventHandler(this.складыToolStripMenuItem_Click);
             // 
+            // клиентыToolStripMenuItem
+            // 
+            this.клиентыToolStripMenuItem.Name = "клиентыToolStripMenuItem";
+            this.клиентыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.клиентыToolStripMenuItem.Text = "Клиенты";
+            this.клиентыToolStripMenuItem.Click += new System.EventHandler(this.клиентыToolStripMenuItem_Click);
+            // 
+            // списокСкладовToolStripMenuItem
+            // 
+            this.списокСкладовToolStripMenuItem.Name = "списокСкладовToolStripMenuItem";
+            this.списокСкладовToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
+            this.списокСкладовToolStripMenuItem.Text = "Список складов";
+            this.списокСкладовToolStripMenuItem.Click += new System.EventHandler(this.списокСкладовToolStripMenuItem_Click);
+            // 
+            // складыПоКомпонентамToolStripMenuItem
+            // 
+            this.складыПоКомпонентамToolStripMenuItem.Name = "складыПоКомпонентамToolStripMenuItem";
+            this.складыПоКомпонентамToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
+            this.складыПоКомпонентамToolStripMenuItem.Text = "Склады по компонентам";
+            this.складыПоКомпонентамToolStripMenuItem.Click += new System.EventHandler(this.складыПоКомпонентамToolStripMenuItem_Click);
+            // 
+            // списокЗаказовПоДатеToolStripMenuItem
+            // 
+            this.списокЗаказовПоДатеToolStripMenuItem.Name = "списокЗаказовПоДатеToolStripMenuItem";
+            this.списокЗаказовПоДатеToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
+            this.списокЗаказовПоДатеToolStripMenuItem.Text = "Список заказов по дате";
+            this.списокЗаказовПоДатеToolStripMenuItem.Click += new System.EventHandler(this.списокЗаказовПоДатеToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -260,9 +269,10 @@ namespace SoftwareInstallationView
         private System.Windows.Forms.ToolStripMenuItem списокДеталейToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem изделияПоКомпонентамToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокЗаказовToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem складыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem клиентыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокСкладовToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem складыПоКомпонентамToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокЗаказовПоДатеToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem складыToolStripMenuItem;
     }
 }

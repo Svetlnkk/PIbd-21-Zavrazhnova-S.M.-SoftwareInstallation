@@ -41,10 +41,11 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             _orderStorage.Insert(new OrderBindingModel
             {
                 PackageId = model.PackageId,
+                ClientId = model.ClientId,
                 Count = model.Count,
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
-                Status = OrderStatus.Принят
+                Status = OrderStatus.Принят                
             });
         }
 
@@ -74,12 +75,13 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
-                PackageId = order.PackageId,
+                ClientId = order.ClientId,
+                PackageId = order.PackageId,                
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
-                Status = OrderStatus.Выполняется
+                Status = OrderStatus.Выполняется                
             });
         }
 
@@ -98,11 +100,12 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             {
                 Id = order.Id,
                 PackageId = order.PackageId,
+                ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
-                Status = OrderStatus.Готов
+                Status = OrderStatus.Готов               
             });
         }
 
@@ -121,11 +124,12 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             {
                 Id = order.Id,
                 PackageId = order.PackageId,
+                ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
-                Status = OrderStatus.Выдан
+                Status = OrderStatus.Выдан                
             });
         }
     }

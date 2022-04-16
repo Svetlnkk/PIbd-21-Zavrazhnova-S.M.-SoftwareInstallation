@@ -23,6 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ReportOrders.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="ReportOrdersDate.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
