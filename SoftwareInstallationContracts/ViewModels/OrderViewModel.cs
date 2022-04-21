@@ -13,6 +13,7 @@ namespace SoftwareInstallationContracts.ViewModels
         public int Id { get; set; }
         public int PackageId { get; set; }
         public int ClientId { get; set; }
+        public int? ImplementerId { get; set; }
         [DisplayName("ФИО клиента")]
         public string ClientFIO { get; set; }
         [DisplayName("Изделие")]
@@ -21,6 +22,8 @@ namespace SoftwareInstallationContracts.ViewModels
         public int Count { get; set; }
         [DisplayName("Сумма")]
         public decimal Sum { get; set; }
+        [DisplayName("Исполнитель")]
+        public string ImplementerFIO { get; set; }
         [DisplayName("Статус")]
         public OrderStatus Status { get; set; }
         [DisplayName("Дата создания")]

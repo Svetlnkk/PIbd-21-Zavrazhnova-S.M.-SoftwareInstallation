@@ -108,6 +108,7 @@ namespace SoftwareInstallationListImplement.Implements
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.PackageId = model.PackageId;
+            order.ImplementerId = (int)model.ImplementerId;
             order.Count = model.Count;
             order.Status = model.Status;
             order.Sum = model.Sum;
@@ -137,11 +138,22 @@ namespace SoftwareInstallationListImplement.Implements
                     break;
                 }
             }
-            return new OrderViewModel
+            string implementerFIO = null;
+            foreach (Implementer implementer in _source.Implementers)
+            {
+                if (order.ImplementerId == implementer.Id)
+                {
+                    implementerFIO = implementer.ImplementerFIO;
+                    break;
+                }
+            }
+                return new OrderViewModel
             {
                 Id = order.Id,
                 PackageId = order.PackageId,
+                ImplementerId = order.ImplementerId,
                 PackageName = packageName,
+                ImplementerFIO = implementerFIO,
                 Count = order.Count,
                 Status = order.Status,
                 Sum = order.Sum,

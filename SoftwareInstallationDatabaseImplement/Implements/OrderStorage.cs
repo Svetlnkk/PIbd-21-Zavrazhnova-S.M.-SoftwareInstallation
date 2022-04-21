@@ -17,13 +17,18 @@ namespace SoftwareInstallationDatabaseImplement.Implements
         {
             using (var context = new SoftwareInstallationDatabase())
             {
-                return context.Orders.Include(rec => rec.Package).Include(rec => rec.Client).ToList().Select(rec => new OrderViewModel
+                return context.Orders.Include(rec => rec.Package)
+                    .Include(rec => rec.Client)
+                    .Include(rec => rec.Implementer)
+                    .ToList().Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     ClientId = rec.ClientId,
                     ClientFIO = rec.Client.ClientFIO,
                     PackageId = rec.PackageId,                    
                     PackageName = rec.Package.PackageName,
+                    ImplementerId = rec.ImplementerId,
+                    ImplementerFIO = rec.Implementer?.ImplementerFIO,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status =rec.Status,
@@ -40,9 +45,10 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             }
             using (var context = new SoftwareInstallationDatabase())
             {
-                return context.Orders.Include(rec => rec.Package).Include(rec => rec.Client)
+                return context.Orders.Include(rec => rec.Package).Include(rec => rec.Client).Include(rec => rec.Implementer)
                     .Where(rec => rec.PackageId == model.PackageId || rec.DateCreate>=model.DateFrom && rec.DateCreate<=model.DateTo
-                    || model.ClientId.HasValue && rec.ClientId == model.ClientId)
+                    || model.ClientId.HasValue && rec.ClientId == model.ClientId
+                    || (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
                     .ToList().Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
@@ -50,6 +56,8 @@ namespace SoftwareInstallationDatabaseImplement.Implements
                     ClientFIO = rec.Client.ClientFIO,
                     PackageId = rec.PackageId,                   
                     PackageName = rec.Package.PackageName,
+                    ImplementerId = rec.ImplementerId,
+                    ImplementerFIO = rec.Implementer?.ImplementerFIO,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
@@ -66,7 +74,7 @@ namespace SoftwareInstallationDatabaseImplement.Implements
             }
             using (var context = new SoftwareInstallationDatabase())
             {
-                var order = context.Orders.Include(rec=>rec.Package).Include(rec => rec.Client).FirstOrDefault(rec => rec.Id == model.Id);
+                var order = context.Orders.Include(rec=>rec.Package).Include(rec => rec.Client).Include(rec => rec.Implementer).FirstOrDefault(rec => rec.Id == model.Id);
                 return order != null ? CreateModel(order, context) : null;
             }
         }
@@ -135,6 +143,7 @@ namespace SoftwareInstallationDatabaseImplement.Implements
         {
             order.PackageId = model.PackageId;
             order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -150,7 +159,9 @@ namespace SoftwareInstallationDatabaseImplement.Implements
                 ClientId = order.ClientId,
                 ClientFIO = order.Client.ClientFIO,
                 PackageId = order.PackageId,
-                PackageName = context.Packages.FirstOrDefault(rec => rec.Id == order.PackageId)?.PackageName,
+                PackageName = context.Packages.FirstOrDefault(rec => rec.Id == order.PackageId)?.PackageName,                
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = order.Implementer?.ImplementerFIO,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status,
