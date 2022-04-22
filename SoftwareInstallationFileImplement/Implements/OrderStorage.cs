@@ -27,7 +27,9 @@ namespace SoftwareInstallationFileImplement.Implements
             {
                 return null;
             }
-            return source.Orders.Where(rec => rec.PackageId == model.PackageId || (rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) || model.ClientId.HasValue && rec.ClientId == model.ClientId.Value)
+            return source.Orders.Where(rec => rec.PackageId == model.PackageId || (rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
+            model.ClientId.HasValue && rec.ClientId == model.ClientId.Value || (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status)
+                    || (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
                 .Select(CreateModel).ToList();
         }
         public OrderViewModel GetElement(OrderBindingModel model)

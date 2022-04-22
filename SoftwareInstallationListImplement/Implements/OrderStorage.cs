@@ -38,7 +38,9 @@ namespace SoftwareInstallationListImplement.Implements
             List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var Order in _source.Orders)
             {
-                if (Order.PackageId == model.PackageId || (Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo) || model.ClientId.HasValue && Order.ClientId == model.ClientId.Value)
+                if (Order.PackageId == model.PackageId || (Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo) || 
+                    model.ClientId.HasValue && Order.ClientId == model.ClientId.Value || (model.SearchStatus.HasValue && model.SearchStatus.Value == order.Status)
+                    || (model.ImplementerId.HasValue && Order.ImplementerId == model.ImplementerId && model.Status == Order.Status))
                 {
                     result.Add(CreateModel(Order));
                 }
