@@ -211,24 +211,7 @@ namespace SoftwareInstallationFileImplement
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(ComponentFileName);
             }
-        }
-        private void SaveClients()
-        {
-            if (Clients != null)
-            {
-                var xElement = new XElement("Clients");
-                foreach (var client in Clients)
-                {
-                    xElement.Add(new XElement("Client",
-                        new XAttribute("Id", client.Id),
-                        new XElement("ClientFIO", client.FIO),
-                        new XElement("Login", client.Login),
-                        new XElement("Password", client.Password)));
-                }
-                var xDocument = new XDocument(xElement);
-                xDocument.Save(ClientFileName);
-            }
-        }
+        }        
         private void SaveWarehouses()
         {
             if (Warehouses != null)

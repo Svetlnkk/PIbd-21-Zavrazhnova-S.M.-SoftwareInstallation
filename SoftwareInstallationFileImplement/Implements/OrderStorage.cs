@@ -70,7 +70,7 @@ namespace SoftwareInstallationFileImplement.Implements
             Order order)
         {
             order.PackageId = model.PackageId;
-            order.ImplementerId = (int)model.ImplementerId;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;

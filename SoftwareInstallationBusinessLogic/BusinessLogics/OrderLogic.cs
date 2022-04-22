@@ -56,23 +56,13 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != OrderStatus.Принят)
+            if (order.Status != OrderStatus.Принят && order.Status!=OrderStatus.ТребуютсяМатериалы)
             {
-                throw new Exception("Заказ не в статусе \"Принят\"");
+                throw new Exception("Заказ не в статусе \"Принят\" или \"Требуются материалы\"");
             }
-            var package = _packageStorage.GetElement(new PackageBindingModel { Id = order.PackageId });
-            try
-            {
-                if (!_warehouseStorage.CheckComponent(order.Count, package.PackageComponents))
-                {
-                    throw new Exception("На складах недостаточно компонентов");
-                }
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-            _orderStorage.Update(new OrderBindingModel
+            var package = _packageStorage.GetElement(new PackageBindingModel { Id = order.PackageId });    
+            
+            var orderBM = new OrderBindingModel
             {
                 Id = order.Id,
                 ClientId = order.ClientId,
@@ -80,10 +70,22 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
                 ImplementerId = model.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
-                Status = OrderStatus.Выполняется                
-            });
+                DateCreate = order.DateCreate
+            };
+            try
+            {
+                if (_warehouseStorage.CheckComponent(orderBM.Count, package.PackageComponents))
+                {
+                    orderBM.Status = OrderStatus.Выполняется;
+                    orderBM.DateImplement = DateTime.Now;
+                    _orderStorage.Update(orderBM);
+                }
+            }
+            catch
+            {
+                orderBM.Status = OrderStatus.ТребуютсяМатериалы;
+                _orderStorage.Update(orderBM);
+            }           
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)
