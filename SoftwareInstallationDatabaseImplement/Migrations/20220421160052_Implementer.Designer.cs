@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftwareInstallationDatabaseImplement;
 
 namespace SoftwareInstallationDatabaseImplement.Migrations
 {
     [DbContext(typeof(SoftwareInstallationDatabase))]
-    partial class SoftwareInstallationDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20220421160052_Implementer")]
+    partial class Implementer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,54 +169,6 @@ namespace SoftwareInstallationDatabaseImplement.Migrations
                     b.ToTable("PackageComponents");
                 });
 
-            modelBuilder.Entity("SoftwareInstallationDatabaseImplement.Models.Warehouse", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Responsible")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WarehouseName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Warehouses");
-                });
-
-            modelBuilder.Entity("SoftwareInstallationDatabaseImplement.Models.WarehouseComponent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ComponentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WarehouseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComponentId");
-
-                    b.HasIndex("WarehouseId");
-
-                    b.ToTable("WarehouseComponents");
-                });
-
             modelBuilder.Entity("SoftwareInstallationDatabaseImplement.Models.Order", b =>
                 {
                     b.HasOne("SoftwareInstallationDatabaseImplement.Models.Client", "Client")
@@ -259,25 +213,6 @@ namespace SoftwareInstallationDatabaseImplement.Migrations
                     b.Navigation("Package");
                 });
 
-            modelBuilder.Entity("SoftwareInstallationDatabaseImplement.Models.WarehouseComponent", b =>
-                {
-                    b.HasOne("SoftwareInstallationDatabaseImplement.Models.Component", "Component")
-                        .WithMany("WarehouseComponents")
-                        .HasForeignKey("ComponentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SoftwareInstallationDatabaseImplement.Models.Warehouse", "Warehouse")
-                        .WithMany("WarehouseComponents")
-                        .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Component");
-
-                    b.Navigation("Warehouse");
-                });
-
             modelBuilder.Entity("SoftwareInstallationDatabaseImplement.Models.Client", b =>
                 {
                     b.Navigation("Orders");
@@ -286,8 +221,6 @@ namespace SoftwareInstallationDatabaseImplement.Migrations
             modelBuilder.Entity("SoftwareInstallationDatabaseImplement.Models.Component", b =>
                 {
                     b.Navigation("PackageComponents");
-
-                    b.Navigation("WarehouseComponents");
                 });
 
             modelBuilder.Entity("SoftwareInstallationDatabaseImplement.Models.Implementer", b =>
@@ -300,11 +233,6 @@ namespace SoftwareInstallationDatabaseImplement.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("PackageComponents");
-                });
-
-            modelBuilder.Entity("SoftwareInstallationDatabaseImplement.Models.Warehouse", b =>
-                {
-                    b.Navigation("WarehouseComponents");
                 });
 #pragma warning restore 612, 618
         }

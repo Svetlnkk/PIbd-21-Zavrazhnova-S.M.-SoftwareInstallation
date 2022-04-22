@@ -14,11 +14,17 @@ namespace SoftwareInstallationDatabaseImplement
             }
             base.OnConfiguring(optionsBuilder);
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Order>().Property(m => m.ImplementerId).IsRequired(false);
+            base.OnModelCreating(modelBuilder);
+        }
         public virtual DbSet<Component> Components { get; set; }
         public virtual DbSet<Package> Packages { get; set; }
         public virtual DbSet<PackageComponent> PackageComponents { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Implementer> Implementers { set; get; }
         public virtual DbSet<Warehouse> Warehouses { get; set; }
         public virtual DbSet<WarehouseComponent> WarehouseComponents { get; set; }
     }
