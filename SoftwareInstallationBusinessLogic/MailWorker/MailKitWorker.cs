@@ -1,5 +1,6 @@
 ﻿using SoftwareInstallationContracts.BindingModels;
 using SoftwareInstallationContracts.BusinessLogicsContracts;
+using SoftwareInstallationContracts.StoragesContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,10 @@ namespace SoftwareInstallationBusinessLogic.MailWorker
 {
    public class MailKitWorker : AbstractMailWorker
     {
-        public MailKitWorker(IMessageInfoLogic messageInfoLogic) : base(messageInfoLogic) { }
+        private IClientStorage _clientStorage;
+        public MailKitWorker(IMessageInfoLogic messageInfoLogic, IClientStorage clientStorage) : base(messageInfoLogic) {
+            _clientStorage = clientStorage;
+        }
         protected override async Task SendMailAsync(MailSendInfoBindingModel info)
         {
             using var objMailMessage = new MailMessage();
@@ -55,6 +59,7 @@ namespace SoftwareInstallationBusinessLogic.MailWorker
                         {
                             list.Add(new MessageInfoBindingModel
                             {
+                                ClientId = _clientStorage.GetElement(new ClientBindingModel { Login = mail.Address })?.Id,
                                 DateDelivery = message.Date.DateTime,
                                 MessageId = message.MessageId,
                                 FromMailAddress = mail.Address,

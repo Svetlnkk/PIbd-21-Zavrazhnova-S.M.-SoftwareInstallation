@@ -1,18 +1,11 @@
-﻿@using SoftwareInstallationContracts.ViewModels
-@model List<MessageInfoViewModel>
-@{
-    ViewData["Title"] = "Home Page";
+﻿@{
+    ViewData["Title"] = "MessageInfo";
 }
 <div class="text-center">
     <h1 class="display-4">Письма</h1>
 </div>
 <div class="text-center">
     @{
-        if (Model == null)
-        {
-            <h3 class="display-4">Авторизируйтесь</h3>
-            return;
-        }
         <table class="table">
             <thead>
                 <tr>
@@ -20,10 +13,10 @@
                         Отправитель
                     </th>
                     <th>
-                        Дата
+                        Дата письма
                     </th>
                     <th>
-                        Тема
+                        Заголовк
                     </th>
                     <th>
                         Текст
@@ -31,20 +24,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in ViewBag.MessagesInfo)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.SenderName)
+                            @item.SenderName
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.DateDelivery)
+                            @item.DateDelivery
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Subject)
+                            @item.Subject
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Body)
+                            @item.Body
                         </td>
                     </tr>
                 }

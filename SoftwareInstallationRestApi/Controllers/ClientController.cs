@@ -2,6 +2,7 @@
 using SoftwareInstallationContracts.BusinessLogicsContracts;
 using SoftwareInstallationContracts.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace SoftwareInstallationRestApi.Controllers
 {
@@ -10,9 +11,11 @@ namespace SoftwareInstallationRestApi.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientLogic _logic;
-        public ClientController(IClientLogic logic)
+        private readonly IMessageInfoLogic _messageLogic;
+        public ClientController(IClientLogic logic, IMessageInfoLogic messageLogic)
         {
             _logic = logic;
+            _messageLogic = messageLogic;
         }
 
         [HttpGet]
@@ -31,5 +34,7 @@ namespace SoftwareInstallationRestApi.Controllers
 
         [HttpPost]
         public void UpdateData(ClientBindingModel model) => _logic.CreateOrUpdate(model);
+        [HttpGet]
+        public List<MessageInfoViewModel> GetClientsMessagesInfo(int clientId) => _messageLogic.Read(new MessageInfoBindingModel { ClientId = clientId });
     }
 }
