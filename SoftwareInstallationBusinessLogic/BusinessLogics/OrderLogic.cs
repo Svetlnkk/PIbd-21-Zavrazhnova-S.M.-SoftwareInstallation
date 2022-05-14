@@ -3,6 +3,7 @@ using SoftwareInstallationContracts.BusinessLogicsContracts;
 using SoftwareInstallationContracts.Enums;
 using SoftwareInstallationContracts.StoragesContracts;
 using SoftwareInstallationContracts.ViewModels;
+using SoftwareInstallationBusinessLogic.MailWorker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,15 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
     {
         private readonly IOrderStorage _orderStorage;
         private readonly IWarehouseStorage _warehouseStorage;
-        private readonly IPackageStorage _packageStorage;
-        public OrderLogic(IOrderStorage orderStorage, IWarehouseStorage warehouseStorage, IPackageStorage packageStorage)
+        private readonly IPackageStorage _packageStorage;       
+        private readonly AbstractMailWorker _mailWorker;
+        private readonly IClientStorage _clientStorage;
+
+        public OrderLogic(IOrderStorage orderStorage, IWarehouseStorage warehouseStorage, IPackageStorage packageStorage, AbstractMailWorker mailWorker, IClientStorage clientStorage)
         {
             _orderStorage = orderStorage;
+            _mailWorker = mailWorker;
+            _clientStorage = clientStorage;
             _warehouseStorage = warehouseStorage;
             _packageStorage = packageStorage;
         }
@@ -46,6 +52,12 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят                
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = model.ClientId })?.Login,
+                Subject = "Создан новый заказ",
+                Text = $"Дата заказа: {DateTime.Now}, сумма заказа: {model.Sum}"
             });
         }
 
@@ -85,7 +97,19 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             {
                 orderBM.Status = OrderStatus.ТребуютсяМатериалы;
                 _orderStorage.Update(orderBM);
-            }           
+                _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+                {
+                    MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.Login,
+                    Subject = $"Смена статуса заказа№ {order.Id}",
+                    Text = $"Статус изменен на: {OrderStatus.ТребуютсяМатериалы}"
+                });
+            }
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.Login,
+                Subject = $"Смена статуса заказа№ {order.Id}",
+                Text = $"Статус изменен на: {OrderStatus.Выполняется}"
+            });
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)
@@ -111,6 +135,12 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Готов               
             });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.Login,
+                Subject = $"Смена статуса заказа№ {order.Id}",
+                Text = $"Статус изменен на: {OrderStatus.Готов}"
+            });
         }
 
         public void DeliveryOrder(ChangeStatusBindingModel model)
@@ -135,6 +165,12 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Выдан                
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.Login,
+                Subject = $"Смена статуса заказа№ {order.Id}",
+                Text = $"Статус изменен на: {OrderStatus.Выдан}"
             });
         }
     }

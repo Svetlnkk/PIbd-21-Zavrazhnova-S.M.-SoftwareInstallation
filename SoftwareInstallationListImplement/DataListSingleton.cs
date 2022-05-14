@@ -15,6 +15,7 @@ namespace SoftwareInstallationListImplement
         public List<Package> Packages { get; set; }
         public List<Client> Clients { get; set; }
         public List<Implementer> Implementers { get; set; }
+        public List<MessageInfo> Messages { get; set; }
 
         public List<Warehouse> Warehouses { get; set; }
 
@@ -25,6 +26,7 @@ namespace SoftwareInstallationListImplement
             Packages = new List<Package>();
             Clients = new List<Client>();
             Implementers = new List<Implementer>();
+            Messages = new List<MessageInfo>();
             Warehouses = new List<Warehouse>();
         }
 
