@@ -34,6 +34,8 @@ namespace SoftwareInstallationView
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonCheck = new System.Windows.Forms.Button();
             this.labelPage = new System.Windows.Forms.Label();
+            this.textBoxPage = new System.Windows.Forms.TextBox();
+            this.labelPageMax = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,7 +52,7 @@ namespace SoftwareInstallationView
             // 
             // buttonBack
             // 
-            this.buttonBack.Location = new System.Drawing.Point(209, 573);
+            this.buttonBack.Location = new System.Drawing.Point(138, 573);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(44, 36);
             this.buttonBack.TabIndex = 1;
@@ -60,7 +62,7 @@ namespace SoftwareInstallationView
             // 
             // buttonNext
             // 
-            this.buttonNext.Location = new System.Drawing.Point(403, 573);
+            this.buttonNext.Location = new System.Drawing.Point(456, 576);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(44, 36);
             this.buttonNext.TabIndex = 2;
@@ -81,17 +83,36 @@ namespace SoftwareInstallationView
             // labelPage
             // 
             this.labelPage.AutoSize = true;
-            this.labelPage.Location = new System.Drawing.Point(278, 577);
+            this.labelPage.Location = new System.Drawing.Point(222, 581);
             this.labelPage.Name = "labelPage";
-            this.labelPage.Size = new System.Drawing.Size(98, 20);
+            this.labelPage.Size = new System.Drawing.Size(79, 20);
             this.labelPage.TabIndex = 4;
-            this.labelPage.Text = "Страница {1}";
+            this.labelPage.Text = "Страница:";
+            // 
+            // textBoxPage
+            // 
+            this.textBoxPage.Location = new System.Drawing.Point(307, 581);
+            this.textBoxPage.Name = "textBoxPage";
+            this.textBoxPage.Size = new System.Drawing.Size(47, 27);
+            this.textBoxPage.TabIndex = 5;
+            this.textBoxPage.TextChanged += new System.EventHandler(this.textBoxPage_TextChanged);
+            // 
+            // labelPageMax
+            // 
+            this.labelPageMax.AutoSize = true;
+            this.labelPageMax.Location = new System.Drawing.Point(379, 588);
+            this.labelPageMax.Name = "labelPageMax";
+            this.labelPageMax.Size = new System.Drawing.Size(36, 20);
+            this.labelPageMax.TabIndex = 6;
+            this.labelPageMax.Text = "из ?";
             // 
             // FormMessages
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 636);
+            this.Controls.Add(this.labelPageMax);
+            this.Controls.Add(this.textBoxPage);
             this.Controls.Add(this.labelPage);
             this.Controls.Add(this.buttonCheck);
             this.Controls.Add(this.buttonNext);
@@ -113,5 +134,7 @@ namespace SoftwareInstallationView
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.Button buttonCheck;
         private System.Windows.Forms.Label labelPage;
+        private System.Windows.Forms.TextBox textBoxPage;
+        private System.Windows.Forms.Label labelPageMax;
     }
 }

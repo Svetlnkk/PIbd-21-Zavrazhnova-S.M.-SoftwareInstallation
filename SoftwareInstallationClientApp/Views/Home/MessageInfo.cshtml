@@ -1,19 +1,14 @@
-﻿@using SoftwareInstallationContracts.ViewModels
-@model (List<MessageInfoViewModel> list, bool hasNext, int page)
-@{
+﻿@{
     ViewData["Title"] = "MessageInfo";
 }
 
 <div class="text-center">
     <h1 class="display-4">Письма</h1>
 </div>
+
+
 <div class="text-center">
     @{
-        if (Model.list == null)
-        {
-            <h3 class="display-4">Авторизируйтесь</h3>
-            return;
-        }
         <table class="table">
             <thead>
                 <tr>
@@ -21,10 +16,10 @@
                         Отправитель
                     </th>
                     <th>
-                        Дата
+                        Дата письма
                     </th>
                     <th>
-                        Заголовок
+                        Заголовк
                     </th>
                     <th>
                         Текст
@@ -32,37 +27,29 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.list)
+                @foreach (var item in ViewBag.MessagesInfo)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.SenderName)
+                            @item.SenderName
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.DateDelivery)
+                            @item.DateDelivery
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Subject)
+                            @item.Subject
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Body)
+                            @item.Body
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+        <form>
+            <button asp-action="PrevMailsPage" class="btn btn-primary">Назад</button>
+            <input type="text" name="pageNumber" value="@ViewBag.PageNumber" size="5" />
+            <button asp-action="NextMailsPage" class="btn btn-primary">Вперёд</button>
+        </form>
     }
-    <div style="display: flex; justify-content: space-around;">
-        @{
-            if ((Model.page - 1) >= 1)
-            {
-                <a asp-action="MessageInfo" asp-route-page="@(Model.page-1)">&#129152;</a>
-            }
-            <span>Страница {@(Model.page)}</span>
-            if (Model.hasNext)
-            {
-                <a asp-action="MessageInfo" asp-route-page="@(Model.page+1)">&#129154;</a>
-            }
-        }
-    </div>
 </div>

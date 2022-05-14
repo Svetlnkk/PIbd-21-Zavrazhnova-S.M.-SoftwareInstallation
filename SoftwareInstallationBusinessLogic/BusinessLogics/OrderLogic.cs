@@ -19,7 +19,7 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
         private readonly IPackageStorage _packageStorage;       
         private readonly AbstractMailWorker _mailWorker;
         private readonly IClientStorage _clientStorage;
-
+        private readonly object locker = new object();
         public OrderLogic(IOrderStorage orderStorage, IWarehouseStorage warehouseStorage, IPackageStorage packageStorage, AbstractMailWorker mailWorker, IClientStorage clientStorage)
         {
             _orderStorage = orderStorage;
@@ -63,53 +63,50 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
 
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            var order = _orderStorage.GetElement(new OrderBindingModel { Id = model.OrderId });
-            if (order == null)
+            lock (locker)
             {
-                throw new Exception("Не найден заказ");
-            }
-            if (order.Status != OrderStatus.Принят && order.Status!=OrderStatus.ТребуютсяМатериалы)
-            {
-                throw new Exception("Заказ не в статусе \"Принят\" или \"Требуются материалы\"");
-            }
-            var package = _packageStorage.GetElement(new PackageBindingModel { Id = order.PackageId });    
-            
-            var orderBM = new OrderBindingModel
-            {
-                Id = order.Id,
-                ClientId = order.ClientId,
-                PackageId = order.PackageId,
-                ImplementerId = model.ImplementerId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate
-            };
-            try
-            {
-                if (_warehouseStorage.CheckComponent(orderBM.Count, package.PackageComponents))
+                var order = _orderStorage.GetElement(new OrderBindingModel { Id = model.OrderId });
+                if (order == null)
                 {
-                    orderBM.Status = OrderStatus.Выполняется;
-                    orderBM.DateImplement = DateTime.Now;
-                    _orderStorage.Update(orderBM);
+                    throw new Exception("Не найден заказ");
                 }
-            }
-            catch
-            {
-                orderBM.Status = OrderStatus.ТребуютсяМатериалы;
-                _orderStorage.Update(orderBM);
-                _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+                if (order.Status != OrderStatus.Принят && order.Status != OrderStatus.ТребуютсяМатериалы)
                 {
-                    MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.Login,
-                    Subject = $"Смена статуса заказа№ {order.Id}",
-                    Text = $"Статус изменен на: {OrderStatus.ТребуютсяМатериалы}"
-                });
+                    throw new Exception("Заказ не в статусе \"Принят\" или \"Требуются материалы\"");
+                }
+                var package = _packageStorage.GetElement(new PackageBindingModel { Id = order.PackageId });
+
+                var orderBM = new OrderBindingModel
+                {
+                    Id = order.Id,
+                    ClientId = order.ClientId,
+                    PackageId = order.PackageId,
+                    ImplementerId = model.ImplementerId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate
+                };
+                try
+                {
+                    if (_warehouseStorage.CheckComponent(orderBM.Count, package.PackageComponents))
+                    {
+                        orderBM.Status = OrderStatus.Выполняется;
+                        orderBM.DateImplement = DateTime.Now;
+                        _orderStorage.Update(orderBM);
+                        _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+                        {
+                            MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.Login,
+                            Subject = $"Смена статуса заказа№ {order.Id}",
+                            Text = $"Статус изменен на: {OrderStatus.Выполняется}"
+                        });
+                    }
+                }
+                catch
+                {
+                    orderBM.Status = OrderStatus.ТребуютсяМатериалы;
+                    _orderStorage.Update(orderBM);                    
+                }                
             }
-            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
-            {
-                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.Login,
-                Subject = $"Смена статуса заказа№ {order.Id}",
-                Text = $"Статус изменен на: {OrderStatus.Выполняется}"
-            });
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)

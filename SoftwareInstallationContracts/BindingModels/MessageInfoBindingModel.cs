@@ -14,9 +14,7 @@ namespace SoftwareInstallationContracts.BindingModels
         public string Subject { get; set; }
         public string Body { get; set; }
         public DateTime DateDelivery { get; set; }
-        public bool Checked { get; set; }
-        public string AnswerText { get; set; }
-        public int? ToSkip { get; set; }
-        public int? ToTake { get; set; }
+        public bool IsRead { get; set; }
+        public string Reply { get; set; }
     }
 }

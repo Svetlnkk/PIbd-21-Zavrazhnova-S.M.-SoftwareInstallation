@@ -223,7 +223,9 @@ namespace SoftwareInstallationFileImplement
                         Body = elem.Element("Body").Value,
                         SenderName = elem.Element("SenderName").Value,
                         Subject = elem.Element("Subject").Value,
-                        DateDelivery = DateTime.Parse(elem.Element("DateDelivery").Value)
+                        DateDelivery = DateTime.Parse(elem.Element("DateDelivery").Value),
+                        IsRead = Convert.ToBoolean(elem.Element("IsRead").Value),
+                        Reply = elem.Element("Reply").Value
                     });
                 }
             }
@@ -362,7 +364,9 @@ namespace SoftwareInstallationFileImplement
                         new XElement("SenderName", message.SenderName),
                         new XElement("Subject", message.Subject),
                         new XElement("Body", message.Body),
-                        new XElement("DateDelivery", message.DateDelivery)));
+                        new XElement("DateDelivery", message.DateDelivery)),
+                        new XElement("IsRead", message.IsRead),
+                        new XElement("Reply", message.Reply));
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(OrderFileName);

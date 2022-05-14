@@ -14,6 +14,7 @@ namespace SoftwareInstallationClientApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        int countOnPage = 3;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -139,12 +140,34 @@ namespace SoftwareInstallationClientApp.Controllers
             return count * pack.Price;
         }
         [HttpGet]
-        public IActionResult MessageInfo(int page = 1)
+        public IActionResult MessageInfo(int pageNumber)
         {
-            var elem = APIClient.GetRequest<(List<MessageInfoViewModel> list, bool hasNext)>
-                ($"api/client/GetClientsMessages?clientId={Program.Client.Id}&page={page}");
-            (List<MessageInfoViewModel>, bool, int) model = (elem.list, elem.hasNext, page);
-            return View(model);
+            ViewBag.MessagesInfo = APIClient.GetRequest<List<MessageInfoViewModel>>
+                ($"api/client/GetClientsMessagesInfo?clientId={Program.Client.Id}")
+                .Skip(countOnPage * Program.currentPageOnMails).Take(countOnPage).ToList();
+            ViewBag.PageNumber = pageNumber + 1;
+            return View();
+        }
+        [HttpGet]
+        public IActionResult NextMailsPage()
+        {
+            int messagesCount = APIClient.GetRequest<List<MessageInfoViewModel>>
+                ($"api/client/GetClientsMessagesInfo?clientId={Program.Client.Id}").Count;
+            if ((countOnPage * (Program.currentPageOnMails + 1)) < messagesCount)
+            {
+                Program.currentPageOnMails++;
+            }
+            return Redirect($"~/Home/MessageInfo?pageNumber={Program.currentPageOnMails}");
+        }
+
+        [HttpGet]
+        public IActionResult PrevMailsPage()
+        {
+            if (Program.currentPageOnMails > 0)
+            {
+                Program.currentPageOnMails--;
+            }
+            return Redirect($"~/Home/MessageInfo?pageNumber={Program.currentPageOnMails}");
         }
     }
 }

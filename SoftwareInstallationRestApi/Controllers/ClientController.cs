@@ -12,8 +12,7 @@ namespace SoftwareInstallationRestApi.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientLogic _logic;
-        private readonly IMessageInfoLogic _messageLogic;
-        private readonly int _messagesOnPage = 3;
+        private readonly IMessageInfoLogic _messageLogic;       
         public ClientController(IClientLogic logic, IMessageInfoLogic messageLogic)
         {
             _logic = logic;
@@ -30,23 +29,12 @@ namespace SoftwareInstallationRestApi.Controllers
             });
             return (list != null && list.Count > 0) ? list[0] : null;
         }
-
-        [HttpGet]
-        public (List<MessageInfoViewModel>, bool) GetClientsMessagesInfo(int clientId, int page)
-        {
-            var list = _messageLogic.Read(new MessageInfoBindingModel
-            {
-                ClientId = clientId,
-                ToSkip = (page - 1) * _messagesOnPage,
-                ToTake = _messagesOnPage + 1
-            }).ToList();
-            var isNext = !(list.Count() <= _messagesOnPage);
-            return (list.Take(_messagesOnPage).ToList(), isNext);
-        }
         [HttpPost]
         public void Register(ClientBindingModel model) => _logic.CreateOrUpdate(model);
 
         [HttpPost]
-        public void UpdateData(ClientBindingModel model) => _logic.CreateOrUpdate(model);        
+        public void UpdateData(ClientBindingModel model) => _logic.CreateOrUpdate(model);
+        [HttpGet]
+        public List<MessageInfoViewModel> GetClientsMessagesInfo(int clientId) => _messageLogic.Read(new MessageInfoBindingModel { ClientId = clientId });
     }
 }

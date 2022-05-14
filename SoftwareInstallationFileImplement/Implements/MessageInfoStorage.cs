@@ -19,40 +19,18 @@ namespace SoftwareInstallationFileImplement.Implements
         }
         public List<MessageInfoViewModel> GetFullList()
         {
-            return source.Messages.Select(rec => new MessageInfoViewModel
-            {
-                MessageId = rec.MessageId,
-                Body = rec.Body,
-                Subject = rec.Subject,
-                DateDelivery = rec.DateDelivery,
-                SenderName = rec.SenderName
-            }).ToList();
+            return source.Messages.Select(CreateModel).ToList();
         }
         public List<MessageInfoViewModel> GetFilteredList(MessageInfoBindingModel model)
         {
             if (model == null)
             {
                 return null;
-            }
-            if (model.ToSkip.HasValue && model.ToTake.HasValue && !model.ClientId.HasValue)
-            {
-                return source.Messages.Skip((int)model.ToSkip).Take((int)model.ToTake).Select(CreateModel).ToList();
-            }
+            }            
             return source.Messages.Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
-                (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date))
-                .Skip(model.ToSkip ?? 0)
-                .Take(model.ToTake ?? source.Messages.Count())
+                (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date))                
                 .Select(CreateModel).ToList();
-        }
-        public MessageInfoViewModel GetElement(MessageInfoBindingModel model)
-        {
-            if (model == null)
-            {
-                return null;
-            }
-            var message = source.Messages.FirstOrDefault(rec => rec.MessageId == model.MessageId);
-            return message != null ? CreateModel(message) : null;
-        }
+        }        
         public void Insert(MessageInfoBindingModel model)
         {
             MessageInfo element = source.Messages.FirstOrDefault(rec => rec.MessageId == model.MessageId);
@@ -60,15 +38,7 @@ namespace SoftwareInstallationFileImplement.Implements
             {
                 throw new Exception("Уже есть письмо с таким идентификатором");
             }
-            source.Messages.Add(new MessageInfo
-            {
-                MessageId = model.MessageId,
-                ClientId = model.ClientId,
-                SenderName = model.FromMailAddress,
-                DateDelivery = model.DateDelivery,
-                Subject = model.Subject,
-                Body = model.Body
-            });
+            source.Messages.Add(CreateModel(model, element));
         }
         public void Update(MessageInfoBindingModel model)
         {
@@ -88,8 +58,8 @@ namespace SoftwareInstallationFileImplement.Implements
                 DateDelivery = model.DateDelivery,
                 Subject = model.Subject,
                 Body = model.Body,
-                Checked = model.Checked,
-                AnswerText = model.AnswerText
+                Reply = model.Reply,
+                IsRead = model.IsRead
             };
         }
         private static MessageInfo CreateModel(MessageInfoBindingModel model, MessageInfo message)
@@ -99,8 +69,8 @@ namespace SoftwareInstallationFileImplement.Implements
             message.ClientId = model.ClientId;
             message.DateDelivery = model.DateDelivery;
             message.Subject = model.Subject;
-            message.Checked = model.Checked;
-            message.AnswerText = model.AnswerText;
+            message.IsRead = model.IsRead;
+            message.Reply = model.Reply;
             return message;
         }
     }

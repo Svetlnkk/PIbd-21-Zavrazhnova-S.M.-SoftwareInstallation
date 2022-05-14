@@ -22,144 +22,102 @@ namespace SoftwareInstallationView
         }
         private void InitializeComponent()
         {
+            this.textBoxReply = new System.Windows.Forms.TextBox();
+            this.buttonReply = new System.Windows.Forms.Button();
             this.labelSenderName = new System.Windows.Forms.Label();
-            this.labelDateDelivery = new System.Windows.Forms.Label();
             this.labelSubject = new System.Windows.Forms.Label();
             this.labelBody = new System.Windows.Forms.Label();
-            this.labelAnswerText = new System.Windows.Forms.Label();
-            this.textBoxAnswerText = new System.Windows.Forms.TextBox();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.labelSenderNameRes = new System.Windows.Forms.Label();
-            this.labelDateDeliveryRes = new System.Windows.Forms.Label();
-            this.labelSubjectRes = new System.Windows.Forms.Label();
-            this.labelBodyRes = new System.Windows.Forms.Label();
+            this.labelDateDelivery = new System.Windows.Forms.Label();
+            this.textBoxReplySubject = new System.Windows.Forms.TextBox();
+            this.labelReplySubject = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // textBoxReply
+            // 
+            this.textBoxReply.Location = new System.Drawing.Point(14, 504);
+            this.textBoxReply.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxReply.Multiline = true;
+            this.textBoxReply.Name = "textBoxReply";
+            this.textBoxReply.Size = new System.Drawing.Size(886, 329);
+            this.textBoxReply.TabIndex = 0;
+            // 
+            // buttonReply
+            // 
+            this.buttonReply.Location = new System.Drawing.Point(720, 851);
+            this.buttonReply.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonReply.Name = "buttonReply";
+            this.buttonReply.Size = new System.Drawing.Size(161, 44);
+            this.buttonReply.TabIndex = 1;
+            this.buttonReply.Text = "Отправить ответ";
+            this.buttonReply.UseVisualStyleBackColor = true;
+            this.buttonReply.Click += new System.EventHandler(this.buttonReply_Click);
             // 
             // labelSenderName
             // 
             this.labelSenderName.AutoSize = true;
-            this.labelSenderName.Location = new System.Drawing.Point(12, 27);
+            this.labelSenderName.Location = new System.Drawing.Point(24, 29);
             this.labelSenderName.Name = "labelSenderName";
             this.labelSenderName.Size = new System.Drawing.Size(102, 20);
-            this.labelSenderName.TabIndex = 0;
+            this.labelSenderName.TabIndex = 2;
             this.labelSenderName.Text = "Отправитель:";
-            // 
-            // labelDateDelivery
-            // 
-            this.labelDateDelivery.AutoSize = true;
-            this.labelDateDelivery.Location = new System.Drawing.Point(12, 68);
-            this.labelDateDelivery.Name = "labelDateDelivery";
-            this.labelDateDelivery.Size = new System.Drawing.Size(100, 20);
-            this.labelDateDelivery.TabIndex = 1;
-            this.labelDateDelivery.Text = "Дата письма:";
             // 
             // labelSubject
             // 
             this.labelSubject.AutoSize = true;
-            this.labelSubject.Location = new System.Drawing.Point(12, 121);
+            this.labelSubject.Location = new System.Drawing.Point(32, 73);
             this.labelSubject.Name = "labelSubject";
             this.labelSubject.Size = new System.Drawing.Size(84, 20);
-            this.labelSubject.TabIndex = 2;
+            this.labelSubject.TabIndex = 3;
             this.labelSubject.Text = "Заголовок:";
             // 
             // labelBody
             // 
             this.labelBody.AutoSize = true;
-            this.labelBody.Location = new System.Drawing.Point(19, 177);
+            this.labelBody.Location = new System.Drawing.Point(113, 164);
             this.labelBody.Name = "labelBody";
             this.labelBody.Size = new System.Drawing.Size(48, 20);
-            this.labelBody.TabIndex = 3;
+            this.labelBody.TabIndex = 4;
             this.labelBody.Text = "Текст:";
             // 
-            // labelAnswerText
+            // labelDateDelivery
             // 
-            this.labelAnswerText.AutoSize = true;
-            this.labelAnswerText.Location = new System.Drawing.Point(19, 258);
-            this.labelAnswerText.Name = "labelAnswerText";
-            this.labelAnswerText.Size = new System.Drawing.Size(51, 20);
-            this.labelAnswerText.TabIndex = 4;
-            this.labelAnswerText.Text = "Ответ:";
+            this.labelDateDelivery.AutoSize = true;
+            this.labelDateDelivery.Location = new System.Drawing.Point(32, 116);
+            this.labelDateDelivery.Name = "labelDateDelivery";
+            this.labelDateDelivery.Size = new System.Drawing.Size(94, 20);
+            this.labelDateDelivery.TabIndex = 5;
+            this.labelDateDelivery.Text = "Доставлено:";
             // 
-            // textBoxAnswerText
+            // textBoxReplySubject
             // 
-            this.textBoxAnswerText.Location = new System.Drawing.Point(20, 297);
-            this.textBoxAnswerText.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBoxAnswerText.Name = "textBoxAnswerText";
-            this.textBoxAnswerText.Size = new System.Drawing.Size(384, 27);
-            this.textBoxAnswerText.TabIndex = 5;
+            this.textBoxReplySubject.Location = new System.Drawing.Point(95, 451);
+            this.textBoxReplySubject.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxReplySubject.Name = "textBoxReplySubject";
+            this.textBoxReplySubject.Size = new System.Drawing.Size(724, 27);
+            this.textBoxReplySubject.TabIndex = 6;
             // 
-            // buttonSave
+            // labelReplySubject
             // 
-            this.buttonSave.Location = new System.Drawing.Point(79, 369);
-            this.buttonSave.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(106, 31);
-            this.buttonSave.TabIndex = 6;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // buttonCancel
-            // 
-            this.buttonCancel.Location = new System.Drawing.Point(249, 369);
-            this.buttonCancel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(86, 31);
-            this.buttonCancel.TabIndex = 7;
-            this.buttonCancel.Text = "Отмена";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
-            // 
-            // labelSenderNameRes
-            // 
-            this.labelSenderNameRes.AutoSize = true;
-            this.labelSenderNameRes.Location = new System.Drawing.Point(165, 40);
-            this.labelSenderNameRes.Name = "labelSenderNameRes";
-            this.labelSenderNameRes.Size = new System.Drawing.Size(0, 20);
-            this.labelSenderNameRes.TabIndex = 8;
-            // 
-            // labelDateDeliveryRes
-            // 
-            this.labelDateDeliveryRes.AutoSize = true;
-            this.labelDateDeliveryRes.Location = new System.Drawing.Point(165, 95);
-            this.labelDateDeliveryRes.Name = "labelDateDeliveryRes";
-            this.labelDateDeliveryRes.Size = new System.Drawing.Size(0, 20);
-            this.labelDateDeliveryRes.TabIndex = 9;
-            // 
-            // labelSubjectRes
-            // 
-            this.labelSubjectRes.AutoSize = true;
-            this.labelSubjectRes.Location = new System.Drawing.Point(165, 147);
-            this.labelSubjectRes.Name = "labelSubjectRes";
-            this.labelSubjectRes.Size = new System.Drawing.Size(0, 20);
-            this.labelSubjectRes.TabIndex = 10;
-            // 
-            // labelBodyRes
-            // 
-            this.labelBodyRes.AutoSize = true;
-            this.labelBodyRes.Location = new System.Drawing.Point(165, 199);
-            this.labelBodyRes.Name = "labelBodyRes";
-            this.labelBodyRes.Size = new System.Drawing.Size(0, 20);
-            this.labelBodyRes.TabIndex = 11;
+            this.labelReplySubject.AutoSize = true;
+            this.labelReplySubject.Location = new System.Drawing.Point(14, 455);
+            this.labelReplySubject.Name = "labelReplySubject";
+            this.labelReplySubject.Size = new System.Drawing.Size(81, 20);
+            this.labelReplySubject.TabIndex = 7;
+            this.labelReplySubject.Text = "Заголовок";
             // 
             // FormMessage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(416, 435);
-            this.Controls.Add(this.labelBodyRes);
-            this.Controls.Add(this.labelSubjectRes);
-            this.Controls.Add(this.labelDateDeliveryRes);
-            this.Controls.Add(this.labelSenderNameRes);
-            this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.textBoxAnswerText);
-            this.Controls.Add(this.labelAnswerText);
+            this.ClientSize = new System.Drawing.Size(914, 911);
+            this.Controls.Add(this.labelReplySubject);
+            this.Controls.Add(this.textBoxReplySubject);
+            this.Controls.Add(this.labelDateDelivery);
             this.Controls.Add(this.labelBody);
             this.Controls.Add(this.labelSubject);
-            this.Controls.Add(this.labelDateDelivery);
             this.Controls.Add(this.labelSenderName);
+            this.Controls.Add(this.buttonReply);
+            this.Controls.Add(this.textBoxReply);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FormMessage";
             this.Text = "Письмо";
@@ -173,13 +131,9 @@ namespace SoftwareInstallationView
         private System.Windows.Forms.Label labelDateDelivery;
         private System.Windows.Forms.Label labelSubject;
         private System.Windows.Forms.Label labelBody;
-        private System.Windows.Forms.Label labelAnswerText;
-        private System.Windows.Forms.TextBox textBoxAnswerText;
-        private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.Label labelSenderNameRes;
-        private System.Windows.Forms.Label labelDateDeliveryRes;
-        private System.Windows.Forms.Label labelSubjectRes;
-        private System.Windows.Forms.Label labelBodyRes;
+        private System.Windows.Forms.TextBox textBoxReply;
+        private System.Windows.Forms.Button buttonReply;
+        private System.Windows.Forms.TextBox textBoxReplySubject;
+        private System.Windows.Forms.Label labelReplySubject;        
     }
 }

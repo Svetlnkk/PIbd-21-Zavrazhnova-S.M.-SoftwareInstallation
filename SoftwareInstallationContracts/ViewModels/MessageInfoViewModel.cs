@@ -10,6 +10,8 @@ namespace SoftwareInstallationContracts.ViewModels
     public class MessageInfoViewModel
     {
         public string MessageId { get; set; }
+        [DisplayName("Статус")]
+        public bool IsRead { get; set; }
         [DisplayName("Отправитель")]
         public string SenderName { get; set; }
         [DisplayName("Дата письма")]
@@ -18,10 +20,8 @@ namespace SoftwareInstallationContracts.ViewModels
         public string Subject { get; set; }
         [DisplayName("Текст")]
         public string Body { get; set; }
-        [DisplayName("Прочитано")]
-        public bool Checked { get; set; }
 
         [DisplayName("Ответ")]
-        public string AnswerText { get; set; }
+        public string Reply { get; set; }
     }
 }

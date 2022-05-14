@@ -16,45 +16,54 @@ namespace SoftwareInstallationView
     public partial class FormMessages : Form
     {
         private readonly IMessageInfoLogic _logic;
-        private bool _isNext = false;
-        private readonly int _messagesOnPage = 3;
-        private int _currentPage = 0;
+        int currentPage = 1;
+        int countOnPage = 3;
+        int maxPage;
         public FormMessages(IMessageInfoLogic logic)
         {
             InitializeComponent();
             _logic = logic;
+            CalcCountPages();
         }
         private void LoadData()
         {
-            var list = _logic.Read(new MessageInfoBindingModel
+            try
             {
-                ToSkip = _currentPage * _messagesOnPage,
-                ToTake = _messagesOnPage + 1
-            });
-            _isNext = !(list.Count() <= _messagesOnPage);
-            if (_isNext)
-            {
-                buttonNext.Enabled = true;
+                var list = _logic.Read(null).Skip(countOnPage * (currentPage - 1)).Take(countOnPage).ToList();
+                if (list != null)
+                {
+                    dataGridView.DataSource = list;
+                    dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[1].ReadOnly = true;
+                }
+                textBoxPage.Text = currentPage.ToString();
             }
-            else
+            catch (Exception ex)
             {
-                buttonNext.Enabled = false;
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            if (_currentPage == 0)
+        }
+        private void CalcCountPages()
+        {
+            int messagesCount = _logic.Read(null).Count;
+            while ((countOnPage * (currentPage - 1)) < messagesCount)
             {
-                buttonBack.Enabled = false;
+                if (currentPage > maxPage)
+                {
+                    maxPage = currentPage;
+                }
+                currentPage++;
             }
-            if (list != null)
-            {
-                dataGridView.DataSource = list.Take(_messagesOnPage).ToList();
-            }
+            labelPageMax.Text = "из " + maxPage.ToString();
+            currentPage = 1;
         }
 
         private void FormMessages_Load(object sender, EventArgs e)
         {
-            LoadData();
-            dataGridView.Columns[0].Visible = false;
-            dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            LoadData();            
             
         }
 
@@ -71,27 +80,32 @@ namespace SoftwareInstallationView
 
         private void buttonNext_Click(object sender, EventArgs e)
         {
-            if (_isNext)
+            if (currentPage < maxPage)
             {
-                _currentPage++;
-                labelPage.Text = "Страница {" + (_currentPage + 1).ToString() + "}";
-                buttonBack.Enabled = true;
-                LoadData();
+                currentPage++;
             }
+            LoadData();
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            if ((_currentPage - 1) >= 0)
+            if (currentPage > 1)
             {
-                _currentPage--;
-                labelPage.Text = "Страница {" + (_currentPage + 1).ToString() + "}";
-                buttonNext.Enabled = true;
-                if (_currentPage == 0)
+                currentPage--;
+            }
+            LoadData();
+        }
+
+        private void textBoxPage_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxPage.Text != "")
+            {
+                int textBoxNumber = Convert.ToInt32(textBoxPage.Text);
+                if (textBoxNumber < maxPage + 1)
                 {
-                    buttonBack.Enabled = false;
+                    currentPage = Convert.ToInt32(textBoxPage.Text);
+                    LoadData();
                 }
-                LoadData();
             }
         }
     }

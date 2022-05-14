@@ -64,9 +64,7 @@ namespace SoftwareInstallationBusinessLogic.MailWorker
                                 MessageId = message.MessageId,
                                 FromMailAddress = mail.Address,
                                 Subject = message.Subject,
-                                Body = message.TextBody,
-                                Checked = false,
-                                AnswerText = ""
+                                Body = message.TextBody
                             });
                         }
                     }

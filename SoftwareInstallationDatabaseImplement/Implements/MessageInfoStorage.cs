@@ -28,31 +28,12 @@ namespace SoftwareInstallationDatabaseImplement.Implements
                 return null;
             }
             using (var context = new SoftwareInstallationDatabase())
-            {
-                if (model.ToSkip.HasValue && model.ToTake.HasValue && !model.ClientId.HasValue)
-                {
-                    return context.Messages.Skip((int)model.ToSkip).Take((int)model.ToTake)
-                    .Select(CreateModel).ToList();
-                }
+            {                
                 return context.Messages.Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
-                    (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date))
-                    .Skip(model.ToSkip ?? 0).Take(model.ToTake ?? context.Messages.Count())
+                    (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date))                    
                     .Select(CreateModel).ToList();
             }
         }
-        public MessageInfoViewModel GetElement(MessageInfoBindingModel model)
-        {
-            if (model == null)
-            {
-                return null;
-            }
-            using (var context = new SoftwareInstallationDatabase())
-            {
-                var message = context.Messages.FirstOrDefault(rec => rec.MessageId == model.MessageId);
-                return message != null ? CreateModel(message) : null;
-            }
-        }
-
         public void Insert(MessageInfoBindingModel model)
         {
             using (var context = new SoftwareInstallationDatabase())
@@ -62,7 +43,16 @@ namespace SoftwareInstallationDatabaseImplement.Implements
                 {
                     throw new Exception("Уже есть письмо с таким идентификатором");
                 }
-                context.Messages.Add(CreateModel(model, new MessageInfo()));
+                context.Messages.Add(new MessageInfo
+                {
+                    MessageId = model.MessageId,
+                    ClientId = model.ClientId,
+                    SenderName = model.FromMailAddress,
+                    DateDelivery = model.DateDelivery,
+                    Subject = model.Subject,
+                    Body = model.Body,
+                    IsRead = false
+                });
                 context.SaveChanges();
             }
         }
@@ -70,13 +60,29 @@ namespace SoftwareInstallationDatabaseImplement.Implements
         {
             using (var context = new SoftwareInstallationDatabase())
             {
-                MessageInfo element = context.Messages.FirstOrDefault(rec => rec.MessageId == model.MessageId);
-                if (element == null)
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    throw new Exception("Элемент не найден");
+                    try
+                    {
+                        var element = context.Messages.FirstOrDefault(rec => rec.MessageId == model.MessageId);
+                        if (element == null)
+                        {
+                            throw new Exception("Элемент не найден");
+                        }
+                        element.IsRead = true;
+                        if (!string.IsNullOrEmpty(model.Reply))
+                        {
+                            element.Reply = model.Reply;
+                        }
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
-                CreateModel(model, element);
-                context.SaveChanges();
             }
         }
 
@@ -89,22 +95,9 @@ namespace SoftwareInstallationDatabaseImplement.Implements
                 DateDelivery = model.DateDelivery,
                 Subject = model.Subject,
                 Body = model.Body,
-                Checked = model.Checked,
-                AnswerText = model.AnswerText
+                IsRead = model.IsRead,
+                Reply = model.Reply
             };
-        }
-
-        private static MessageInfo CreateModel(MessageInfoBindingModel model, MessageInfo message)
-        {
-            message.MessageId = model.MessageId;
-            message.ClientId = model.ClientId;
-            message.SenderName = model.FromMailAddress;
-            message.DateDelivery = model.DateDelivery;
-            message.Subject = model.Subject;
-            message.Body = model.Body;
-            message.Checked = model.Checked;
-            message.AnswerText = model.AnswerText;
-            return message;
-        }
+        }        
     }
 }
