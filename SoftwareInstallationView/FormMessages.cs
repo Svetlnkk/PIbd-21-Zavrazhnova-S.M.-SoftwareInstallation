@@ -22,13 +22,19 @@ namespace SoftwareInstallationView
 
         private void FormMessages_Load(object sender, EventArgs e)
         {
-            var list = _logic.Read(null);
-            if (list != null)
+            LoadData();
+        }
+        private void LoadData()
+        {
+            try
             {
-                dataGridView.DataSource = list;
-                dataGridView.Columns[0].Visible = false;
-                dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                Program.ConfigGrid(_logic.Read(null), dataGridView);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }

@@ -31,14 +31,19 @@ namespace SoftwareInstallationView
             try
             {
                 var list = _logic.Read(null);
+                Program.ConfigGrid(list, dataGridView);
                 if (list != null)
                 {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;                    
-                    dataGridView.Columns[3].Visible = false;
-                    dataGridView.Columns[4].Visible = false;
+                    dataGridView.Rows.Clear();
+                    foreach (var package in list)
+                    {
+                        string strComponents = string.Empty;
+                        foreach (var component in package.PackageComponents)
+                        {
+                            strComponents += component.Value.Item1 + " = " + component.Value.Item2 + " шт.; ";
+                        }
+                        dataGridView.Rows.Add(new object[] { package.Id, package.PackageName, package.Price, strComponents });
+                    }
                 }
             }
             catch (Exception ex)

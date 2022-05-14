@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareInstallationContracts.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,13 @@ namespace SoftwareInstallationContracts.ViewModels
 {
     public class ClientViewModel
     {
+        [Column(title: "Номер", width: 80)]
         public int Id { get; set; }
-        [DisplayName("ФИО клиента")]
+        [Column(title: "ФИО", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string FIO { get; set; }
-        [DisplayName("Логин клиента")]
+        [Column(title: "Логин", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Login { get; set; }
-        [DisplayName("Пароль клиента")]
+        [Column(title: "Пароль", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Password { get; set; }
     }
 }
