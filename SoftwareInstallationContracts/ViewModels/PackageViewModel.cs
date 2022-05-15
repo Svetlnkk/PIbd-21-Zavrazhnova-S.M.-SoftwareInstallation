@@ -18,5 +18,17 @@ namespace SoftwareInstallationContracts.ViewModels
         public decimal Price { get; set; }
         [Column(title: "Компоненты", gridViewAutoSize: GridViewAutoSize.Fill)]
         public Dictionary<int, (string, int)> PackageComponents { get; set; }
+        public string GetComponents()
+        {
+            string stringComponents = string.Empty;
+            if (PackageComponents != null)
+            {
+                foreach (var component in PackageComponents)
+                {
+                    stringComponents += component.Value.Item1 + " = " + component.Value.Item2 + " шт.; ";
+                }
+            }
+            return stringComponents;
+        }
     }
 }

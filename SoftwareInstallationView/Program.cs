@@ -16,7 +16,7 @@ using Unity;
 using Unity.Lifetime;
 using System.Configuration;
 using System.Threading;
-
+using SoftwareInstallationContracts.ViewModels;
 
 namespace SoftwareInstallationView
 {
@@ -91,8 +91,7 @@ namespace SoftwareInstallationView
             foreach (var prop in type.GetProperties())
             {
                 // получаем список атрибутов
-                var attributes =
-                prop.GetCustomAttributes(typeof(ColumnAttribute), true);
+                var attributes = prop.GetCustomAttributes(typeof(ColumnAttribute), true);
                 if (attributes != null && attributes.Length > 0)
                 {
                     foreach (var attr in attributes)
@@ -109,11 +108,9 @@ namespace SoftwareInstallationView
                                 Visible = columnAttr.Visible,
                                 Width = columnAttr.Width
                             };
-                            if (columnAttr.GridViewAutoSize !=
-                            GridViewAutoSize.None)
+                            if (columnAttr.GridViewAutoSize != GridViewAutoSize.None)
                             {
-                                column.AutoSizeMode =
-                                (DataGridViewAutoSizeColumnMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnMode),
+                                column.AutoSizeMode =(DataGridViewAutoSizeColumnMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnMode),
                                 columnAttr.GridViewAutoSize.ToString());
                             }
                             grid.Columns.Add(column);
@@ -127,8 +124,11 @@ namespace SoftwareInstallationView
                 var objs = new List<object>();
                 foreach (var conf in config)
                 {
-                    var value =
-                    elem.GetType().GetProperty(conf).GetValue(elem);
+                    var value = elem.GetType().GetProperty(conf).GetValue(elem);
+                    if (value is Dictionary<int, (string, int)>)
+                    {
+                        objs.Add(((PackageViewModel)(object)elem).GetComponents());
+                    }
                     objs.Add(value);
                 }
                 grid.Rows.Add(objs.ToArray());

@@ -31,20 +31,7 @@ namespace SoftwareInstallationView
             try
             {
                 var list = _logic.Read(null);
-                Program.ConfigGrid(list, dataGridView);
-                if (list != null)
-                {
-                    dataGridView.Rows.Clear();
-                    foreach (var package in list)
-                    {
-                        string strComponents = string.Empty;
-                        foreach (var component in package.PackageComponents)
-                        {
-                            strComponents += component.Value.Item1 + " = " + component.Value.Item2 + " шт.; ";
-                        }
-                        dataGridView.Rows.Add(new object[] { package.Id, package.PackageName, package.Price, strComponents });
-                    }
-                }
+                Program.ConfigGrid(list, dataGridView);                
             }
             catch (Exception ex)
             {
