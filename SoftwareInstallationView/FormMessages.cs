@@ -16,20 +16,20 @@ namespace SoftwareInstallationView
     public partial class FormMessages : Form
     {
         private readonly IMessageInfoLogic _logic;
-        int currentPage = 1;
-        int countOnPage = 3;
-        int maxPage;
+        int currentPage = 1;        
         public FormMessages(IMessageInfoLogic logic)
         {
             InitializeComponent();
-            _logic = logic;
-            CalcCountPages();
+            _logic = logic;            
         }
         private void LoadData()
         {
             try
             {
-                var list = _logic.Read(null).Skip(countOnPage * (currentPage - 1)).Take(countOnPage).ToList();
+                var list = _logic.Read(new MessageInfoBindingModel
+                {
+                    PageNumber = currentPage
+                });
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -45,21 +45,7 @@ namespace SoftwareInstallationView
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-        private void CalcCountPages()
-        {
-            int messagesCount = _logic.Read(null).Count;
-            while ((countOnPage * (currentPage - 1)) < messagesCount)
-            {
-                if (currentPage > maxPage)
-                {
-                    maxPage = currentPage;
-                }
-                currentPage++;
-            }
-            labelPageMax.Text = "из " + maxPage.ToString();
-            currentPage = 1;
-        }
+        }       
 
         private void FormMessages_Load(object sender, EventArgs e)
         {
@@ -80,11 +66,16 @@ namespace SoftwareInstallationView
 
         private void buttonNext_Click(object sender, EventArgs e)
         {
-            if (currentPage < maxPage)
+            int stringsCountOnPage = _logic.Read(new MessageInfoBindingModel
+            {
+                PageNumber = currentPage + 1
+            }).Count;
+
+            if (stringsCountOnPage != 0)
             {
                 currentPage++;
+                LoadData();
             }
-            LoadData();
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -101,9 +92,14 @@ namespace SoftwareInstallationView
             if (textBoxPage.Text != "")
             {
                 int textBoxNumber = Convert.ToInt32(textBoxPage.Text);
-                if (textBoxNumber < maxPage + 1)
+                int stringsCountOnPage = _logic.Read(new MessageInfoBindingModel
                 {
-                    currentPage = Convert.ToInt32(textBoxPage.Text);
+                    PageNumber = textBoxNumber
+                }).Count;
+
+                if (textBoxNumber > 1 && stringsCountOnPage != 0)
+                {
+                    currentPage = textBoxNumber;
                     LoadData();
                 }
             }

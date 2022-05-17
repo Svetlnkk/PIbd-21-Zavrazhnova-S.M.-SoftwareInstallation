@@ -142,32 +142,43 @@ namespace SoftwareInstallationClientApp.Controllers
         [HttpGet]
         public IActionResult MessageInfo(int pageNumber)
         {
-            ViewBag.MessagesInfo = APIClient.GetRequest<List<MessageInfoViewModel>>
-                ($"api/client/GetClientsMessagesInfo?clientId={Program.Client.Id}")
-                .Skip(countOnPage * Program.currentPageOnMails).Take(countOnPage).ToList();
-            ViewBag.PageNumber = pageNumber + 1;
-            return View();
+            if (Program.Client == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
+
+            List<MessageInfoViewModel> model = new List<MessageInfoViewModel>();
+            if (pageNumber > 0)
+            {
+                model = APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/GetClientsMessagesInfo?clientId={Program.Client.Id}&pageNumber={pageNumber}");
+            }
+
+            if (model.Count == 0 && Program.PageNumber != 0)
+            {
+                model = APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/GetClientsMessagesInfo?clientId={Program.Client.Id}&pageNumber={Program.PageNumber}");
+            }
+            else
+            {
+                Program.PageNumber = pageNumber;
+            }
+            ViewBag.Id = Program.PageNumber;
+            return View(model);
         }
+
         [HttpGet]
         public IActionResult NextMailsPage()
         {
-            int messagesCount = APIClient.GetRequest<List<MessageInfoViewModel>>
-                ($"api/client/GetClientsMessagesInfo?clientId={Program.Client.Id}").Count;
-            if ((countOnPage * (Program.currentPageOnMails + 1)) < messagesCount)
-            {
-                Program.currentPageOnMails++;
-            }
-            return Redirect($"~/Home/MessageInfo?pageNumber={Program.currentPageOnMails}");
+            return Redirect($"~/Home/MessageInfo?pageNumber={Program.PageNumber + 1}");
         }
 
         [HttpGet]
         public IActionResult PrevMailsPage()
         {
-            if (Program.currentPageOnMails > 0)
+            if (Program.PageNumber > 1)
             {
-                Program.currentPageOnMails--;
+                return Redirect($"~/Home/MessageInfo?pageNumber={Program.PageNumber - 1}");
             }
-            return Redirect($"~/Home/MessageInfo?pageNumber={Program.currentPageOnMails}");
+            return Redirect($"~/Home/MessageInfo?pageNumber={Program.PageNumber}");
         }
     }
 }

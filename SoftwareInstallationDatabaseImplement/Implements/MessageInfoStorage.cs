@@ -13,6 +13,7 @@ namespace SoftwareInstallationDatabaseImplement.Implements
 {
     public class MessageInfoStorage : IMessageInfoStorage
     {
+        private readonly int stringsOnPage = 3;
         public List<MessageInfoViewModel> GetFullList()
         {
             using (var context = new SoftwareInstallationDatabase())
@@ -28,10 +29,17 @@ namespace SoftwareInstallationDatabaseImplement.Implements
                 return null;
             }
             using (var context = new SoftwareInstallationDatabase())
-            {                
-                return context.Messages.Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
-                    (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date))                    
-                    .Select(CreateModel).ToList();
+            {
+                var messages = context.Messages
+                .Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) || 
+                (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date) || 
+                (!model.ClientId.HasValue && model.PageNumber.HasValue) || 
+                (model.ClientId.HasValue && rec.ClientId == model.ClientId && model.PageNumber.HasValue));
+                if (model.PageNumber.HasValue)
+                {
+                    messages = messages.Skip(stringsOnPage * (model.PageNumber.Value - 1)).Take(stringsOnPage);
+                }
+                return messages.Select(CreateModel).ToList();
             }
         }
         public void Insert(MessageInfoBindingModel model)

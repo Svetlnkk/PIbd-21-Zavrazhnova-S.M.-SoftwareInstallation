@@ -62,7 +62,7 @@ namespace SoftwareInstallationView
             // 
             // buttonNext
             // 
-            this.buttonNext.Location = new System.Drawing.Point(456, 576);
+            this.buttonNext.Location = new System.Drawing.Point(398, 576);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(44, 36);
             this.buttonNext.TabIndex = 2;
@@ -102,9 +102,8 @@ namespace SoftwareInstallationView
             this.labelPageMax.AutoSize = true;
             this.labelPageMax.Location = new System.Drawing.Point(379, 588);
             this.labelPageMax.Name = "labelPageMax";
-            this.labelPageMax.Size = new System.Drawing.Size(36, 20);
+            this.labelPageMax.Size = new System.Drawing.Size(0, 20);
             this.labelPageMax.TabIndex = 6;
-            this.labelPageMax.Text = "из ?";
             // 
             // FormMessages
             // 

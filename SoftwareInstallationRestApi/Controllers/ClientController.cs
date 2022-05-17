@@ -35,6 +35,6 @@ namespace SoftwareInstallationRestApi.Controllers
         [HttpPost]
         public void UpdateData(ClientBindingModel model) => _logic.CreateOrUpdate(model);
         [HttpGet]
-        public List<MessageInfoViewModel> GetClientsMessagesInfo(int clientId) => _messageLogic.Read(new MessageInfoBindingModel { ClientId = clientId });
+        public List<MessageInfoViewModel> GetClientsMessagesInfo(int clientId, int pageNumber) => _messageLogic.Read(new MessageInfoBindingModel { ClientId = clientId, PageNumber = pageNumber });
     }
 }

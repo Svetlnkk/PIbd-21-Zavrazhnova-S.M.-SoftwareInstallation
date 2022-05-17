@@ -62,9 +62,7 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
         }
 
         public void TakeOrderInWork(ChangeStatusBindingModel model)
-        {
-            lock (locker)
-            {
+        {            
                 var order = _orderStorage.GetElement(new OrderBindingModel { Id = model.OrderId });
                 if (order == null)
                 {
@@ -105,8 +103,7 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
                 {
                     orderBM.Status = OrderStatus.ТребуютсяМатериалы;
                     _orderStorage.Update(orderBM);                    
-                }                
-            }
+                }    
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)
