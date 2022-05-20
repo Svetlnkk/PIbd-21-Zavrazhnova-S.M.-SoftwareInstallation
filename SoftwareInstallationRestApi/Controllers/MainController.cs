@@ -28,9 +28,7 @@ namespace SoftwareInstallationRestApi.Controllers
         public PackageViewModel GetPackage(int packageId) => _package.Read(new PackageBindingModel { Id = packageId })?[0];
 
         [HttpGet]
-        public List<OrderViewModel> GetOrders(int clientId) => _order.Read(new OrderBindingModel { ClientId = clientId });
-        [HttpGet]
-        public List<MessageInfoViewModel> GetMessages(int clientId) => _message.Read(new MessageInfoBindingModel { ClientId = clientId });
+        public List<OrderViewModel> GetOrders(int clientId) => _order.Read(new OrderBindingModel { ClientId = clientId });       
 
         [HttpPost]
         public void CreateOrder(CreateOrderBindingModel model) => _order.CreateOrder(model);

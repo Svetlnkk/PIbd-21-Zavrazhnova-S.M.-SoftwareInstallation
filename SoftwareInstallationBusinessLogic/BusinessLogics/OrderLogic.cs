@@ -18,8 +18,7 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
         private readonly IWarehouseStorage _warehouseStorage;
         private readonly IPackageStorage _packageStorage;       
         private readonly AbstractMailWorker _mailWorker;
-        private readonly IClientStorage _clientStorage;
-        private readonly object locker = new object();
+        private readonly IClientStorage _clientStorage;        
         public OrderLogic(IOrderStorage orderStorage, IWarehouseStorage warehouseStorage, IPackageStorage packageStorage, AbstractMailWorker mailWorker, IClientStorage clientStorage)
         {
             _orderStorage = orderStorage;

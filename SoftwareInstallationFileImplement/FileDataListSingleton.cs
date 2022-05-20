@@ -369,7 +369,7 @@ namespace SoftwareInstallationFileImplement
                         new XElement("Reply", message.Reply));
                 }
                 var xDocument = new XDocument(xElement);
-                xDocument.Save(OrderFileName);
+                xDocument.Save(MessageFileName);
             }
         }
         public static void Save()

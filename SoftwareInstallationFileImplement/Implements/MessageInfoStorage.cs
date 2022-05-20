@@ -26,11 +26,25 @@ namespace SoftwareInstallationFileImplement.Implements
             if (model == null)
             {
                 return null;
-            }            
+            }
+            if (model.ToSkip.HasValue && model.ToTake.HasValue && !model.ClientId.HasValue)
+            {
+                return source.Messages.Skip((int)model.ToSkip).Take((int)model.ToTake)
+                    .Select(CreateModel).ToList();
+            }
             return source.Messages.Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
                 (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date))                
                 .Select(CreateModel).ToList();
-        }        
+        }
+        public MessageInfoViewModel GetElement(MessageInfoBindingModel model)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+            var message = source.Messages.FirstOrDefault(rec => rec.MessageId == model.MessageId);
+            return message != null ? CreateModel(message) : null;
+        }
         public void Insert(MessageInfoBindingModel model)
         {
             MessageInfo element = source.Messages.FirstOrDefault(rec => rec.MessageId == model.MessageId);
@@ -38,7 +52,7 @@ namespace SoftwareInstallationFileImplement.Implements
             {
                 throw new Exception("Уже есть письмо с таким идентификатором");
             }
-            source.Messages.Add(CreateModel(model, element));
+            source.Messages.Add(CreateModel(model, new MessageInfo()));
         }
         public void Update(MessageInfoBindingModel model)
         {

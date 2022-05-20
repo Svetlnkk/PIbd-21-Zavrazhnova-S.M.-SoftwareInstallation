@@ -16,7 +16,9 @@ namespace SoftwareInstallationView
     public partial class FormMessages : Form
     {
         private readonly IMessageInfoLogic _logic;
-        int currentPage = 1;        
+        private bool isNext = false;
+        private readonly int messagesPage = 3;
+        private int currentPage = 0;        
         public FormMessages(IMessageInfoLogic logic)
         {
             InitializeComponent();
@@ -24,33 +26,36 @@ namespace SoftwareInstallationView
         }
         private void LoadData()
         {
-            try
+            var list = _logic.Read(new MessageInfoBindingModel
+                {
+                    ToSkip = currentPage * messagesPage,
+                    ToTake = messagesPage + 1
+            });
+            isNext = !(list.Count() <= messagesPage);
+            if (isNext)
             {
-                var list = _logic.Read(new MessageInfoBindingModel
-                {
-                    PageNumber = currentPage
-                });
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns[1].ReadOnly = true;
-                }
-                textBoxPage.Text = currentPage.ToString();
+                buttonNext.Enabled = true;
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                buttonNext.Enabled = false;
+            }
+            if (currentPage == 0)
+            {
+                buttonBack.Enabled = false;
+            }
+            if (list != null)
+            {
+                dataGridView.DataSource = list.Take(messagesPage).ToList();
             }
         }       
 
         private void FormMessages_Load(object sender, EventArgs e)
         {
-            LoadData();            
-            
+            LoadData();
+            dataGridView.Columns[0].Visible = false;
+            dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
         }
 
         private void buttonCheck_Click(object sender, EventArgs e)
@@ -66,43 +71,30 @@ namespace SoftwareInstallationView
 
         private void buttonNext_Click(object sender, EventArgs e)
         {
-            int stringsCountOnPage = _logic.Read(new MessageInfoBindingModel
-            {
-                PageNumber = currentPage + 1
-            }).Count;
-
-            if (stringsCountOnPage != 0)
+            if (isNext)
             {
                 currentPage++;
+                labelPage.Text = "Страница {" + (currentPage + 1).ToString() + "}";
+                buttonBack.Enabled = true;
                 LoadData();
             }
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            if (currentPage > 1)
+            if ((currentPage - 1) >= 0)
             {
                 currentPage--;
-            }
-            LoadData();
-        }
-
-        private void textBoxPage_TextChanged(object sender, EventArgs e)
-        {
-            if (textBoxPage.Text != "")
-            {
-                int textBoxNumber = Convert.ToInt32(textBoxPage.Text);
-                int stringsCountOnPage = _logic.Read(new MessageInfoBindingModel
+                labelPage.Text = "Страница {" + (currentPage + 1).ToString() + "}";
+                buttonNext.Enabled = true;
+                if (currentPage == 0)
                 {
-                    PageNumber = textBoxNumber
-                }).Count;
-
-                if (textBoxNumber > 1 && stringsCountOnPage != 0)
-                {
-                    currentPage = textBoxNumber;
-                    LoadData();
+                    buttonBack.Enabled = false;
                 }
+                LoadData();
             }
         }
+
+       
     }
 }

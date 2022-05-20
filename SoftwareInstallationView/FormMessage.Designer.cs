@@ -30,6 +30,7 @@ namespace SoftwareInstallationView
             this.labelDateDelivery = new System.Windows.Forms.Label();
             this.textBoxReplySubject = new System.Windows.Forms.TextBox();
             this.labelReplySubject = new System.Windows.Forms.Label();
+            this.buttonCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxReply
@@ -43,7 +44,7 @@ namespace SoftwareInstallationView
             // 
             // buttonReply
             // 
-            this.buttonReply.Location = new System.Drawing.Point(720, 851);
+            this.buttonReply.Location = new System.Drawing.Point(442, 858);
             this.buttonReply.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonReply.Name = "buttonReply";
             this.buttonReply.Size = new System.Drawing.Size(161, 44);
@@ -105,11 +106,22 @@ namespace SoftwareInstallationView
             this.labelReplySubject.TabIndex = 7;
             this.labelReplySubject.Text = "Заголовок";
             // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Location = new System.Drawing.Point(718, 855);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(161, 44);
+            this.buttonCancel.TabIndex = 8;
+            this.buttonCancel.Text = "Отмена";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            // 
             // FormMessage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(914, 911);
+            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.labelReplySubject);
             this.Controls.Add(this.textBoxReplySubject);
             this.Controls.Add(this.labelDateDelivery);
@@ -134,6 +146,7 @@ namespace SoftwareInstallationView
         private System.Windows.Forms.TextBox textBoxReply;
         private System.Windows.Forms.Button buttonReply;
         private System.Windows.Forms.TextBox textBoxReplySubject;
-        private System.Windows.Forms.Label labelReplySubject;        
+        private System.Windows.Forms.Label labelReplySubject;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }

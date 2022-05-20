@@ -34,7 +34,6 @@ namespace SoftwareInstallationView
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonCheck = new System.Windows.Forms.Button();
             this.labelPage = new System.Windows.Forms.Label();
-            this.textBoxPage = new System.Windows.Forms.TextBox();
             this.labelPageMax = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -62,7 +61,7 @@ namespace SoftwareInstallationView
             // 
             // buttonNext
             // 
-            this.buttonNext.Location = new System.Drawing.Point(398, 576);
+            this.buttonNext.Location = new System.Drawing.Point(351, 580);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(44, 36);
             this.buttonNext.TabIndex = 2;
@@ -85,17 +84,9 @@ namespace SoftwareInstallationView
             this.labelPage.AutoSize = true;
             this.labelPage.Location = new System.Drawing.Point(222, 581);
             this.labelPage.Name = "labelPage";
-            this.labelPage.Size = new System.Drawing.Size(79, 20);
+            this.labelPage.Size = new System.Drawing.Size(98, 20);
             this.labelPage.TabIndex = 4;
-            this.labelPage.Text = "Страница:";
-            // 
-            // textBoxPage
-            // 
-            this.textBoxPage.Location = new System.Drawing.Point(307, 581);
-            this.textBoxPage.Name = "textBoxPage";
-            this.textBoxPage.Size = new System.Drawing.Size(47, 27);
-            this.textBoxPage.TabIndex = 5;
-            this.textBoxPage.TextChanged += new System.EventHandler(this.textBoxPage_TextChanged);
+            this.labelPage.Text = "Страница {1}";
             // 
             // labelPageMax
             // 
@@ -111,7 +102,6 @@ namespace SoftwareInstallationView
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 636);
             this.Controls.Add(this.labelPageMax);
-            this.Controls.Add(this.textBoxPage);
             this.Controls.Add(this.labelPage);
             this.Controls.Add(this.buttonCheck);
             this.Controls.Add(this.buttonNext);
@@ -133,7 +123,6 @@ namespace SoftwareInstallationView
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.Button buttonCheck;
         private System.Windows.Forms.Label labelPage;
-        private System.Windows.Forms.TextBox textBoxPage;
         private System.Windows.Forms.Label labelPageMax;
     }
 }

@@ -22,12 +22,20 @@ namespace SoftwareInstallationBusinessLogic.BusinessLogics
             if (model == null)
             {
                 return messageInfoStorage.GetFullList();
-            }            
+            }
+            if (!string.IsNullOrEmpty(model.MessageId))
+            {
+                return new List<MessageInfoViewModel> { messageInfoStorage.GetElement(model) };
+            }
             return messageInfoStorage.GetFilteredList(model);
         }
         public void CreateOrUpdate(MessageInfoBindingModel model)
-        {            
-            if (model.IsRead == false || !string.IsNullOrEmpty(model.Reply))
+        {
+            var element = messageInfoStorage.GetElement(new MessageInfoBindingModel
+            {
+                MessageId = model.MessageId
+            });
+            if (element!=null)
             {
                 messageInfoStorage.Update(model);
             }

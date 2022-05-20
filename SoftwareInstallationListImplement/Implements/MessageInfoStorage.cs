@@ -31,18 +31,44 @@ namespace SoftwareInstallationListImplement.Implements
             if (model == null)
             {
                 return null;
-            }            
-            var result = new List<MessageInfoViewModel>();            
+            }
+            int toSkip = model.ToSkip ?? 0;
+            int toTake = model.ToTake ?? source.Messages.Count;
+            var result = new List<MessageInfoViewModel>();
             foreach (var message in source.Messages)
             {
-                if ((model.ClientId.HasValue && message.ClientId == model.ClientId) ||
-                    (!model.ClientId.HasValue && message.DateDelivery.Date == model.DateDelivery.Date))
-                {                    
-                        result.Add(CreateModel(message));           
+                if ((model.ClientId.HasValue && message.ClientId == model.ClientId)
+                    || (!model.ClientId.HasValue && (model.ToSkip.HasValue && model.ToTake.HasValue || message.DateDelivery.Date == model.DateDelivery.Date)))
+                {
+                    if (toSkip > 0)
+                    {
+                        toSkip--;
+                        continue;
+                    }
+                    if (toTake > 0)
+                    {
+                        result.Add(CreateModel(message));
+                        toTake--;
+                    }
                 }
             }
             return result;
-        }        
+        }
+        public MessageInfoViewModel GetElement(MessageInfoBindingModel model)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+            foreach (var message in source.Messages)
+            {
+                if (message.MessageId == model.MessageId)
+                {
+                    return CreateModel(message);
+                }
+            }
+            return null;
+        }
         public void Insert(MessageInfoBindingModel model)
         {
             if (model == null)

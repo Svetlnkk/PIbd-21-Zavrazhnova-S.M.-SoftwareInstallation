@@ -13,9 +13,7 @@ namespace SoftwareInstallationClientApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        int countOnPage = 3;
-
+        private readonly ILogger<HomeController> _logger;       
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -140,45 +138,15 @@ namespace SoftwareInstallationClientApp.Controllers
             return count * pack.Price;
         }
         [HttpGet]
-        public IActionResult MessageInfo(int pageNumber)
+        public IActionResult MessageInfo(int page = 1)
         {
             if (Program.Client == null)
             {
                 return Redirect("~/Home/Enter");
             }
-
-            List<MessageInfoViewModel> model = new List<MessageInfoViewModel>();
-            if (pageNumber > 0)
-            {
-                model = APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/GetClientsMessagesInfo?clientId={Program.Client.Id}&pageNumber={pageNumber}");
-            }
-
-            if (model.Count == 0 && Program.PageNumber != 0)
-            {
-                model = APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/GetClientsMessagesInfo?clientId={Program.Client.Id}&pageNumber={Program.PageNumber}");
-            }
-            else
-            {
-                Program.PageNumber = pageNumber;
-            }
-            ViewBag.Id = Program.PageNumber;
+            var elem = APIClient.GetRequest<(List<MessageInfoViewModel> list, bool isNext)>($"api/client/GetClientsMessageInfo?clientId={Program.Client.Id}&page={page}");
+            (List<MessageInfoViewModel>, bool, int) model = (elem.list, elem.isNext, page);
             return View(model);
-        }
-
-        [HttpGet]
-        public IActionResult NextMailsPage()
-        {
-            return Redirect($"~/Home/MessageInfo?pageNumber={Program.PageNumber + 1}");
-        }
-
-        [HttpGet]
-        public IActionResult PrevMailsPage()
-        {
-            if (Program.PageNumber > 1)
-            {
-                return Redirect($"~/Home/MessageInfo?pageNumber={Program.PageNumber - 1}");
-            }
-            return Redirect($"~/Home/MessageInfo?pageNumber={Program.PageNumber}");
         }
     }
 }
