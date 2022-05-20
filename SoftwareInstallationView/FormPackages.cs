@@ -31,15 +31,7 @@ namespace SoftwareInstallationView
             try
             {
                 var list = _logic.Read(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;                    
-                    dataGridView.Columns[3].Visible = false;
-                    dataGridView.Columns[4].Visible = false;
-                }
+                Program.ConfigGrid(list, dataGridView);                
             }
             catch (Exception ex)
             {

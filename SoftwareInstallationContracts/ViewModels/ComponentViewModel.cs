@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareInstallationContracts.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,9 @@ namespace SoftwareInstallationContracts.ViewModels
 {
     public class ComponentViewModel
     {
+        [Column(title: "Номер", width: 80)]
         public int Id { get; set; }
-        [DisplayName("Название компонента")]
+        [Column(title: "Название компонента", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string ComponentName { get; set; }
     }
 }

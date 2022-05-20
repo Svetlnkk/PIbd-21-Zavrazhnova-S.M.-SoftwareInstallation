@@ -40,11 +40,12 @@ namespace SoftwareInstallationView
             this.компонентыПоИзделиямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.запускРаботыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.письмаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.создатьБекапToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.btnCreateOrder = new System.Windows.Forms.Button();
             this.btnRefreshList = new System.Windows.Forms.Button();
             this.btnIssuedOrder = new System.Windows.Forms.Button();
-            this.письмаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -56,7 +57,8 @@ namespace SoftwareInstallationView
             this.справочникиToolStripMenuItem,
             this.отчетыToolStripMenuItem,
             this.запускРаботыToolStripMenuItem,
-            this.письмаToolStripMenuItem});
+            this.письмаToolStripMenuItem,
+            this.создатьБекапToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1300, 28);
@@ -140,6 +142,20 @@ namespace SoftwareInstallationView
             this.запускРаботыToolStripMenuItem.Text = "Запуск работ";
             this.запускРаботыToolStripMenuItem.Click += new System.EventHandler(this.запускРаботыToolStripMenuItem_Click);
             // 
+            // письмаToolStripMenuItem
+            // 
+            this.письмаToolStripMenuItem.Name = "письмаToolStripMenuItem";
+            this.письмаToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
+            this.письмаToolStripMenuItem.Text = "Письма";
+            this.письмаToolStripMenuItem.Click += new System.EventHandler(this.письмаToolStripMenuItem_Click);
+            // 
+            // создатьБекапToolStripMenuItem
+            // 
+            this.создатьБекапToolStripMenuItem.Name = "создатьБекапToolStripMenuItem";
+            this.создатьБекапToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.создатьБекапToolStripMenuItem.Text = "Создать бекап";
+            this.создатьБекапToolStripMenuItem.Click += new System.EventHandler(this.создатьБекапToolStripMenuItem_Click);
+            // 
             // dataGridView
             // 
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -148,12 +164,12 @@ namespace SoftwareInstallationView
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersWidth = 51;
             this.dataGridView.RowTemplate.Height = 29;
-            this.dataGridView.Size = new System.Drawing.Size(1020, 419);
+            this.dataGridView.Size = new System.Drawing.Size(1071, 419);
             this.dataGridView.TabIndex = 1;
             // 
             // btnCreateOrder
             // 
-            this.btnCreateOrder.Location = new System.Drawing.Point(1055, 121);
+            this.btnCreateOrder.Location = new System.Drawing.Point(1077, 120);
             this.btnCreateOrder.Name = "btnCreateOrder";
             this.btnCreateOrder.Size = new System.Drawing.Size(211, 29);
             this.btnCreateOrder.TabIndex = 2;
@@ -163,7 +179,7 @@ namespace SoftwareInstallationView
             // 
             // btnRefreshList
             // 
-            this.btnRefreshList.Location = new System.Drawing.Point(1055, 263);
+            this.btnRefreshList.Location = new System.Drawing.Point(1077, 258);
             this.btnRefreshList.Name = "btnRefreshList";
             this.btnRefreshList.Size = new System.Drawing.Size(211, 29);
             this.btnRefreshList.TabIndex = 5;
@@ -173,20 +189,13 @@ namespace SoftwareInstallationView
             // 
             // btnIssuedOrder
             // 
-            this.btnIssuedOrder.Location = new System.Drawing.Point(1055, 189);
+            this.btnIssuedOrder.Location = new System.Drawing.Point(1077, 188);
             this.btnIssuedOrder.Name = "btnIssuedOrder";
             this.btnIssuedOrder.Size = new System.Drawing.Size(211, 29);
             this.btnIssuedOrder.TabIndex = 6;
             this.btnIssuedOrder.Text = "Заказ выдан";
             this.btnIssuedOrder.UseVisualStyleBackColor = true;
             this.btnIssuedOrder.Click += new System.EventHandler(this.btnIssuedOrder_Click);
-            // 
-            // письмаToolStripMenuItem
-            // 
-            this.письмаToolStripMenuItem.Name = "письмаToolStripMenuItem";
-            this.письмаToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
-            this.письмаToolStripMenuItem.Text = "Письма";
-            this.письмаToolStripMenuItem.Click += new System.EventHandler(this.письмаToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -228,5 +237,6 @@ namespace SoftwareInstallationView
         private System.Windows.Forms.ToolStripMenuItem исполнителиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem запускРаботыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem письмаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem создатьБекапToolStripMenuItem;
     }
 }
