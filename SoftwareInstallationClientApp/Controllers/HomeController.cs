@@ -13,8 +13,7 @@ namespace SoftwareInstallationClientApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
+        private readonly ILogger<HomeController> _logger;       
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -137,6 +136,17 @@ namespace SoftwareInstallationClientApp.Controllers
         {
             PackageViewModel pack = APIClient.GetRequest<PackageViewModel>($"api/main/getpackage?packageId={package}");
             return count * pack.Price;
+        }
+        [HttpGet]
+        public IActionResult MessageInfo(int page = 1)
+        {
+            if (Program.Client == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
+            var elem = APIClient.GetRequest<(List<MessageInfoViewModel> list, bool isNext)>($"api/client/GetClientsMessageInfo?clientId={Program.Client.Id}&page={page}");
+            (List<MessageInfoViewModel>, bool, int) model = (elem.list, elem.isNext, page);
+            return View(model);
         }
     }
 }

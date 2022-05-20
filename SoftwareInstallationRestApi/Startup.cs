@@ -2,6 +2,8 @@ using SoftwareInstallationBusinessLogic.BusinessLogics;
 using SoftwareInstallationContracts.BusinessLogicsContracts;
 using SoftwareInstallationContracts.StoragesContracts;
 using SoftwareInstallationDatabaseImplement.Implements;
+using SoftwareInstallationBusinessLogic.MailWorker;
+using SoftwareInstallationContracts.BindingModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,9 +37,13 @@ namespace SoftwareInstallationRestApi
             services.AddTransient<IPackageStorage, PackageStorage>();
             services.AddTransient<IWarehouseStorage, WarehouseStorage>();
             services.AddTransient<IComponentStorage, ComponentStorage>();
+            services.AddTransient<IMessageInfoStorage, MessageInfoStorage>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IPackageLogic, PackageLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
+            services.AddSingleton<AbstractMailWorker, MailKitWorker>();
+            services.AddControllers();
             services.AddTransient<IWarehouseLogic, WarehouseLogic>();
             services.AddTransient<IComponentLogic, ComponentLogic>();
             services.AddControllers().AddNewtonsoftJson();
@@ -66,6 +72,16 @@ namespace SoftwareInstallationRestApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            var mailSender = app.ApplicationServices.GetService<AbstractMailWorker>();
+            mailSender.MailConfig(new MailConfigBindingModel
+            {
+                MailLogin = Configuration?.GetSection("MailLogin")?.Value.ToString(),
+                MailPassword = Configuration?.GetSection("MailPassword")?.Value.ToString(),
+                SmtpClientHost = Configuration?.GetSection("SmtpClientHost")?.Value.ToString(),
+                SmtpClientPort = Convert.ToInt32(Configuration?.GetSection("SmtpClientPort")?.Value.ToString()),
+                PopHost = Configuration?.GetSection("PopHost")?.Value.ToString(),
+                PopPort = Convert.ToInt32(Configuration?.GetSection("PopPort")?.Value.ToString())
             });
         }
     }

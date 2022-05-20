@@ -13,10 +13,12 @@ namespace SoftwareInstallationRestApi.Controllers
     {
         private readonly IOrderLogic _order;
         private readonly IPackageLogic _package;
-        public MainController(IOrderLogic order, IPackageLogic package)
+        private readonly IMessageInfoLogic _message;
+        public MainController(IOrderLogic order, IPackageLogic package, IMessageInfoLogic message)
         {
             _order = order;
             _package = package;
+            _message = message;
         }
 
         [HttpGet]
@@ -26,7 +28,7 @@ namespace SoftwareInstallationRestApi.Controllers
         public PackageViewModel GetPackage(int packageId) => _package.Read(new PackageBindingModel { Id = packageId })?[0];
 
         [HttpGet]
-        public List<OrderViewModel> GetOrders(int clientId) => _order.Read(new OrderBindingModel { ClientId = clientId });
+        public List<OrderViewModel> GetOrders(int clientId) => _order.Read(new OrderBindingModel { ClientId = clientId });       
 
         [HttpPost]
         public void CreateOrder(CreateOrderBindingModel model) => _order.CreateOrder(model);

@@ -39,7 +39,7 @@ namespace SoftwareInstallationListImplement.Implements
             foreach (var Order in _source.Orders)
             {
                 if (Order.PackageId == model.PackageId || (Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo) || 
-                    model.ClientId.HasValue && Order.ClientId == model.ClientId.Value || (model.SearchStatus.HasValue && model.SearchStatus.Value == order.Status)
+                    model.ClientId.HasValue && Order.ClientId == model.ClientId.Value || (model.SearchStatus.HasValue && model.SearchStatus.Value == Order.Status)
                     || (model.ImplementerId.HasValue && Order.ImplementerId == model.ImplementerId && model.Status == Order.Status))
                 {
                     result.Add(CreateModel(Order));
