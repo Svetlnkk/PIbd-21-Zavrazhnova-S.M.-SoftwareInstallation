@@ -138,5 +138,11 @@ namespace SoftwareInstallationClientApp.Controllers
             PackageViewModel pack = APIClient.GetRequest<PackageViewModel>($"api/main/getpackage?packageId={package}");
             return count * pack.Price;
         }
+        [HttpGet]
+        public IActionResult MessageInfo()
+        {
+            ViewBag.MessagesInfo = APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/GetClientsMessagesInfo?clientId={Program.Client.Id}");
+            return View();
+        }
     }
 }
